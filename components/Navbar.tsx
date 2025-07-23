@@ -23,7 +23,7 @@ const Navbar = () => {
           <h3 className="font-[--font-robotoCondensed] text-xl">EzyExpense</h3>
         </div>
       </Link>
-      <div className="flex text-neutral-400 justify-center items-center gap-12">
+      <div className="hidden md:flex text-neutral-400 justify-center items-center gap-12">
         <Link href="/" className="text-neutral-50">Home</Link>
         <Link href="">Features</Link>
         <Link href="/dashboard">Dashboard</Link>
@@ -31,7 +31,7 @@ const Navbar = () => {
       </div>
       <div>
         <Link href="">
-          <button className="text-amber-200 cursor-pointer  py-3 px-6 flex items-center gap-2">sign in <MoveRight  /></button>
+          <button className="text-amber-200 cursor-pointer  py-3 pl-6 flex items-center gap-2">sign in <MoveRight  /></button>
         </Link>
       </div>
     </motion.nav>

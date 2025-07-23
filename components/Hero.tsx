@@ -30,16 +30,16 @@ const Hero = () => {
   };
 
   return (
-    <main className="border-b-1 border-t-1 flex  border-neutral-400 w-full h-[70vh] md:h-[80vh] ">
+    <main className="border-b-1 border-t-1 flex flex-col lg:flex-row border-neutral-400 w-full  lg:h-[80vh] ">
       <motion.div
         variants={container}
         initial="hidden"
         animate="show"
-        className="flex flex-col items-center justify-center gap-6 w-[50%] h-full border-r-1 border-neutral-400 px-6 md:px-12 "
+        className="flex flex-col items-center justify-center gap-6 w-[100%] lg:w-[50%] h-full border-b-1 lg:border-r-1 border-neutral-400 py-12 lg:py-6 px-0 md:px-12 "
       >
         <motion.p
           variants={item}
-          className="text-6xl md:8xl leading-18 w-[90%] font-semibold"
+          className="text-6xl md:6xl lg:8xl leading-18 w-[90%] font-semibold"
         >
           Manage Your Expenses Easily with{" "}
           <span className="font-[--font-robotoCondensed] bg-gradient-to-br text-transparent bg-clip-text from-blue-400 via-neutral-50 to-pink-600">
@@ -60,7 +60,7 @@ const Hero = () => {
           </Link>
         </motion.div>
       </motion.div>
-      <div className="w-[50%] h-full grid grid-rows-3 ">
+      <div className="w-[100%] lg:w-[50%] h-full grid grid-rows-3 ">
         {/* 1st row */}
         <div className="w-full  grid grid-cols-3">
           {/* first cube */}
@@ -68,7 +68,7 @@ const Hero = () => {
             <motion.div
               animate={{ rotate: 360 }}
               transition={{ repeat: Infinity, duration: 10, ease: "linear" }}
-              className="bg-gradient-to-r   border-neutral-300"
+              className="bg-gradient-to-r  w-34 md:w-full border-neutral-300"
             >
               <Star color1="#faff66" color2="#f5a2f5" />
             </motion.div>
@@ -90,7 +90,7 @@ const Hero = () => {
               duration: 1,
               delay:1.2
             }}
-            className="absolute top-10 left-10 text-2xl bg-clip-text text-transparent bg-gradient-to-r from-neutral-50 via-neutral-600 to-neutral-900 font-bold"
+            className="absolute  top-5 md:top-10 left-5 md:left-10 text-md lg:text-2xl bg-clip-text text-transparent bg-gradient-to-r from-neutral-50 via-neutral-600 to-neutral-900 font-bold"
           >
             Keep Expenses
           </motion.h3>
@@ -102,7 +102,7 @@ const Hero = () => {
               duration: 1,
               delay:1.5
             }}
-            className="absolute bottom-10 right-10 text-2xl bg-clip-text text-transparent bg-gradient-to-l from-neutral-50 via-neutral-600 to-neutral-900 font-bold"
+            className="absolute bottom-5 right-5 md:bottom-10 md:right-10 text-md lg:text-2xl bg-clip-text text-transparent bg-gradient-to-l from-neutral-50 via-neutral-600 to-neutral-900 font-bold"
           >
             Crystal Clear
           </motion.h3>
@@ -120,7 +120,7 @@ const Hero = () => {
             <motion.div
               animate={{ rotate: 360 }}
               transition={{ repeat: Infinity, duration: 10, ease: "linear" }}
-              className=" border-neutral-300 "
+              className=" border-neutral-300 w-34 md:w-full"
             >
               <Star color1="#64e873" color2="#e68e87" />
             </motion.div>
