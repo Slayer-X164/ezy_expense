@@ -27,7 +27,7 @@ export default function GraphLine() {
         strokeLinejoin="round"
         initial={{ pathLength: 0 }}
         animate={{ pathLength: 1 }}
-        transition={{ duration: 2, ease: 'easeInOut' }}
+        transition={{ duration: 5, ease: 'easeInOut' }}
       />
 
       {/* Glowing dot at peak */}
@@ -38,11 +38,11 @@ export default function GraphLine() {
         fill="hotpink"
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
-        transition={{ delay: 2 }}
+        transition={{ delay: 3 }}
       />
 
       {/* Price bubble */}
-      <motion.foreignObject x="210" y="20" width="100" height="40" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 2.2 }}>
+      <motion.foreignObject x="210" y="20" width="100" height="40" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 3.2 }}>
         <div style={{
 
           color: 'white',
