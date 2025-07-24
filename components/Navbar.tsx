@@ -1,9 +1,18 @@
 "use client"
-import { MoveRight } from "lucide-react";
+import { LogOut, MoveRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import {motion} from 'framer-motion'
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
+import { IoExitOutline } from "react-icons/io5";
+import { logOut } from "@/redux/slice/userSlice";
 const Navbar = () => {
+  const dispatch = useDispatch()
+  const user = useSelector((state:RootState)=>state.user)
+  const handleLogOut=()=>{
+    dispatch(logOut())
+  }
   return (
     <motion.nav
     initial={{opacity:0,y:-10}}
@@ -30,9 +39,10 @@ const Navbar = () => {
         <Link href="/dashboard">Dashboard</Link>
       </div>
       <div>
-        <Link href="/login">
+
+        {!user.isLoggedIn ? <Link href="/login">
           <button className="text-amber-200 cursor-pointer  py-3 pl-6 flex items-center gap-2">log in <MoveRight  /></button>
-        </Link>
+        </Link>: <button onClick={handleLogOut} className="text-amber-200 cursor-pointer  py-3 pl-6 flex items-center gap-2">log out <IoExitOutline /></button>}
       </div>
     </motion.nav>
   );
