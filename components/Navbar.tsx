@@ -9,7 +9,7 @@ const Navbar = () => {
     initial={{opacity:0,y:-10}}
     animate={{opacity:1,y:0}}
     transition={{duration:0.8,delay:1}}
-    className="w-full py-6 px-4 md:px-12 flex justify-between items-center ">
+    className="w-full py-4 px-4 md:px-12 flex justify-between items-center ">
       <Link href="/">
         <div className="flex items-center gap-2">
           {" "}
@@ -24,14 +24,14 @@ const Navbar = () => {
         </div>
       </Link>
       <div className="hidden md:flex text-neutral-400 justify-center items-center gap-12">
-        <Link href="/" className="text-neutral-50">Home</Link>
-        <Link href="">Features</Link>
+        <Link href="/" >Home</Link>
+        <Link href="#features">Features</Link>
+        <Link href="#testimonials">Testimonials</Link>
         <Link href="/dashboard">Dashboard</Link>
-        <Link href="">Testimonials</Link>
       </div>
       <div>
-        <Link href="">
-          <button className="text-amber-200 cursor-pointer  py-3 pl-6 flex items-center gap-2">sign in <MoveRight  /></button>
+        <Link href="/login">
+          <button className="text-amber-200 cursor-pointer  py-3 pl-6 flex items-center gap-2">log in <MoveRight  /></button>
         </Link>
       </div>
     </motion.nav>

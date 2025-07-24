@@ -12,7 +12,7 @@ const pathData = `
   L 200 60
   L 230 120
   L 260 90
-  L 500 90
+  L 900 90
 `;
 
 export default function GraphLine() {
