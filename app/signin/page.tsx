@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export default function login(){
     return (
-          <div className="w-full h-[80vh] px-4 lg:px-6 flex items-center justify-center">
+          <div className="w-full min-h-[80vh]  px-4 lg:px-6 flex items-center justify-center">
             <section className="bg-neutral-900  w-full lg:w-[80%] h-full lg:h-[80vh] flex items-center justify-center">
                 <div className="w-full lg:w-[50%] py-6 h-full">
                    <SigninForm/>

@@ -1,29 +1,45 @@
-'use client';
+"use client";
 
-import { FcGoogle } from 'react-icons/fc';
-import React, { useState } from 'react';
-import Link from 'next/link';
-import { IoMdEye, IoMdEyeOff } from 'react-icons/io';
+import { useState } from "react";
+import Link from "next/link";
+import { IoMdEye, IoMdEyeOff } from "react-icons/io";
+import validateEmail from "@/utils/validateEmail";
+import { useRouter } from "next/navigation";
+import { FcGoogle } from "react-icons/fc";
 
 const LoginForm = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const router = useRouter();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [isEyeOpen, setEyeOpen] = useState(false);
-
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value);
-  };
+  const [formError, setFormError] = useState("");
 
   const togglePasswordVisibility = () => {
     setEyeOpen((prev) => !prev);
   };
+  const handleForm = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log(e);
+    if (!validateEmail(email)) {
+      return setFormError("enter a valid email");
+    }
+    if (!password) {
+      return setFormError("enter the password");
+    }
 
+    setFormError("");
+    router.push("/");
+  };
   return (
     <div className="h-full flex items-center justify-center bg-transparent px-4">
       <div className="max-w-md w-full space-y-6">
         <div className="text-center">
-          <h2 className="text-2xl font-semibold text-neutral-200">Welcome back</h2>
-          <p className="text-sm text-neutral-500">Continue with Google or enter your details.</p>
+          <h2 className="text-2xl font-semibold text-neutral-200">
+            Welcome back
+          </h2>
+          <p className="text-sm text-neutral-500">
+            Continue with Google or enter your details.
+          </p>
         </div>
 
         <button className="w-full flex items-center bg-neutral-950/50 justify-center border border-neutral-800 rounded-lg py-3 hover:bg-neutral-800 cursor-pointer">
@@ -37,23 +53,27 @@ const LoginForm = () => {
           <div className="flex-grow h-px bg-neutral-600" />
         </div>
 
-        <form className="space-y-4">
+        <form className="space-y-4" onSubmit={handleForm}>
           <div>
-            <label className="text-sm font-medium text-neutral-400">Email</label>
+            <label className="text-sm font-medium text-neutral-400">
+              Email
+            </label>
             <input
               type="email"
               value={email}
-              onChange={handleEmailChange}
+              onChange={(e) => setEmail(e.target.value)}
               className="w-full mt-1 px-3 py-2 border border-neutral-700 rounded-lg bg-transparent text-white"
               placeholder="you@example.com"
             />
           </div>
 
           <div>
-            <label className="text-sm font-medium text-neutral-400">Password</label>
+            <label className="text-sm font-medium text-neutral-400">
+              Password
+            </label>
             <div className="relative">
               <input
-                type={isEyeOpen ? 'text' : 'password'}
+                type={isEyeOpen ? "text" : "password"}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full mt-1 px-3 py-2 border border-neutral-700 rounded-lg bg-transparent text-white"
@@ -67,7 +87,9 @@ const LoginForm = () => {
               </div>
             </div>
           </div>
-
+          {formError && (
+            <p className="text-sm  text-red-500">{formError}</p>
+          )}
           <button
             type="submit"
             className="w-full cursor-pointer bg-neutral-800 text-white py-2 rounded-lg hover:bg-neutral-700 transition"
@@ -77,8 +99,11 @@ const LoginForm = () => {
         </form>
 
         <p className="text-center text-sm text-neutral-500">
-          Don’t have an account?{' '}
-          <Link href="/signin" className="font-medium text-yellow-100 underline">
+          Don’t have an account?{" "}
+          <Link
+            href="/signin"
+            className="font-medium text-yellow-100 underline"
+          >
             Sign up for free
           </Link>
         </p>
