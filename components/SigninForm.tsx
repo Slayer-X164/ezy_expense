@@ -14,7 +14,6 @@ import { RootState } from "@/redux/store";
 const SigninForm = () => {
   const dispatch = useDispatch();
 
-
   const user = useSelector((state: RootState) => state.user);
   const router = useRouter();
   const [name, setName] = useState("");
@@ -24,27 +23,38 @@ const SigninForm = () => {
   const [formError, setFormError] = useState("");
   const [isEyeOpen, setEyeOpen] = useState(false);
 
-
-
+  const createUserApi = async () => {
+    const res = await fetch("/api/user", {
+      method: "POST",
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify({ name, email, password }),
+    });
+    const resData = await res.json();
+    console.log("data: ",resData);
+  };
 
   const togglePasswordVisibility = () => {
     setEyeOpen((prev) => !prev);
   };
   const handleForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(e);
     if (name.length < 3) {
-      return setFormError("name must be atleast 3 characters long");
+      return setFormError("name must be atleast 3 characters ");
     }
     if (!validateEmail(email)) {
       return setFormError("enter a valid email");
     }
-    if (!password) {
-      return setFormError("enter the password");
+    if (password.length <= 5) {
+      return setFormError("password must be atleast 6 characters");
+    }
+    if(!password){
+      return setFormError("enter a valid password")
     }
     if (password.trim() != confirmPassword.trim()) {
       return setFormError("password does not match");
     }
+
+    createUserApi();
     dispatch(setUser({ id: "1232", name, email, token: "dsdfsef" }));
     localStorage.setItem("user", JSON.stringify(user));
     setFormError("");
