@@ -1,11 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import Link from "next/link";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 import validateEmail from "@/utils/validateEmail";
 import { useRouter } from "next/navigation";
 import { FcGoogle } from "react-icons/fc";
+import { login } from "@/app/actions/actions";
+import { useFormStatus } from "react-dom";
 
 const LoginForm = () => {
   const router = useRouter();
@@ -13,23 +15,16 @@ const LoginForm = () => {
   const [password, setPassword] = useState("");
   const [isEyeOpen, setEyeOpen] = useState(false);
   const [formError, setFormError] = useState("");
-
+  const [loginState, loginAction] = useActionState(login, undefined);
+  useEffect(()=>{
+    if(loginState?.success){
+    router.push('/')
+  }
+  },[loginState])
   const togglePasswordVisibility = () => {
     setEyeOpen((prev) => !prev);
   };
-  const handleForm = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log(e);
-    if (!validateEmail(email)) {
-      return setFormError("enter a valid email");
-    }
-    if (!password) {
-      return setFormError("enter the password");
-    }
 
-    setFormError("");
-    router.push("/");
-  };
   return (
     <div className="h-full flex items-center justify-center bg-transparent px-4">
       <div className="max-w-md w-full space-y-6">
@@ -53,7 +48,7 @@ const LoginForm = () => {
           <div className="flex-grow h-px bg-neutral-600" />
         </div>
 
-        <form className="space-y-4" onSubmit={handleForm}>
+        <form className="space-y-4" action={loginAction}>
           <div>
             <label className="text-sm font-medium text-neutral-400">
               Email
@@ -61,6 +56,7 @@ const LoginForm = () => {
             <input
               type="email"
               value={email}
+              name="email"
               onChange={(e) => setEmail(e.target.value)}
               className="w-full mt-1 px-3 py-2 border border-neutral-700 rounded-lg bg-transparent text-white"
               placeholder="you@example.com"
@@ -75,6 +71,7 @@ const LoginForm = () => {
               <input
                 type={isEyeOpen ? "text" : "password"}
                 value={password}
+                name="password"
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full mt-1 px-3 py-2 border border-neutral-700 rounded-lg bg-transparent text-white"
                 placeholder="••••••••"
@@ -87,15 +84,13 @@ const LoginForm = () => {
               </div>
             </div>
           </div>
-          {formError && (
-            <p className="text-sm  text-red-500">{formError}</p>
+          {loginState && (
+            <p className="text-sm  text-red-500">
+              {loginState?.error?.email || loginState?.error?.password}
+            </p>
           )}
-          <button
-            type="submit"
-            className="w-full cursor-pointer bg-neutral-800 text-white py-2 rounded-lg hover:bg-neutral-700 transition"
-          >
-            Log in
-          </button>
+          {/* submit btn */}
+          <SubmitBtn />
         </form>
 
         <p className="text-center text-sm text-neutral-500">
@@ -111,5 +106,16 @@ const LoginForm = () => {
     </div>
   );
 };
-
+function SubmitBtn() {
+  const { pending } = useFormStatus();
+  return (
+    <button
+      type="submit"
+      disabled={pending}
+      className="w-full cursor-pointer bg-neutral-800 text-white py-2 rounded-lg hover:bg-neutral-700 transition"
+    >
+      Log in
+    </button>
+  );
+}
 export default LoginForm;

@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser, logOut } from "@/redux/slice/userSlice";
 import { RootState } from "@/redux/store";
+import toast from "react-hot-toast";
 
 const SigninForm = () => {
   const dispatch = useDispatch();
@@ -30,6 +31,11 @@ const SigninForm = () => {
       body: JSON.stringify({ name, email, password }),
     });
     const resData = await res.json();
+    if(resData.success){
+      toast.success(resData.message)
+    }else{
+      toast.error(resData.message)
+    }
     console.log("data: ",resData);
   };
 
@@ -56,9 +62,8 @@ const SigninForm = () => {
 
     createUserApi();
     dispatch(setUser({ id: "1232", name, email, token: "dsdfsef" }));
-    localStorage.setItem("user", JSON.stringify(user));
     setFormError("");
-    router.push("/");
+    router.push("/login");
   };
   return (
     <div className="h-full flex items-center  justify-center bg-transparent px-4">

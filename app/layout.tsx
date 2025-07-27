@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, Poppins, Roboto_Condensed } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Providers from "@/redux/providers";
+import { Toaster } from "react-hot-toast";
 
 const robotoCondensed = Roboto_Condensed({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -45,7 +46,9 @@ export default function RootLayout({
           <Navbar />
           {children}
         </Providers>
+        <Toaster/>
       </body>
+
     </html>
   );
 }
