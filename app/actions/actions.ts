@@ -26,8 +26,7 @@ export async function login(prevState: any, formData: FormData) {
   //   checking if the user trying to login is matching his email and password present in mongodb database
   try {
     await connectDB();
-    const user = await User.findOne({ email});
-
+    const user = await User.findOne({ email });
 
     if (!user) {
       return { error: { email: ["account not found"] } };
@@ -38,13 +37,24 @@ export async function login(prevState: any, formData: FormData) {
     }
     //create session and jwt token
     await createSession(user._id.toString());
-    return {success:true}
+    return {
+      success: true,
+      user: {
+        _id: user._id.toString(),
+        name: user.name,
+        email: user.email,
+        password: user.password,
+        createdAt: user.createdAt,
+        updatedAt: user.updatedAt,
+      },
+    };
+
   } catch (error: any) {
-    console.log("error while login ",error.message);
+    console.log("error while login ", error.message);
 
     return { error: { email: ["Something went wrong"] } };
   }
 }
 export async function logout() {
-  await deleteSession()
+  await deleteSession();
 }

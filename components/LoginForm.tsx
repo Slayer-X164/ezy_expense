@@ -8,8 +8,11 @@ import { useRouter } from "next/navigation";
 import { FcGoogle } from "react-icons/fc";
 import { login } from "@/app/actions/actions";
 import { useFormStatus } from "react-dom";
+import { useDispatch } from "react-redux";
+import { setUser } from "@/redux/slice/userSlice";
 
 const LoginForm = () => {
+  const dispatch = useDispatch()
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -18,6 +21,7 @@ const LoginForm = () => {
   const [loginState, loginAction] = useActionState(login, undefined);
   useEffect(()=>{
     if(loginState?.success){
+    dispatch(setUser(loginState?.user))
     router.push('/')
   }
   },[loginState])
