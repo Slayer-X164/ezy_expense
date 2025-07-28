@@ -1,4 +1,5 @@
 "use server";
+import { auth, signIn, signOut } from "@/auth";
 import connectDB from "@/lib/db";
 import { createSession, deleteSession } from "@/lib/sessionFunctions";
 
@@ -57,4 +58,12 @@ export async function login(prevState: any, formData: FormData) {
 }
 export async function logout() {
   await deleteSession();
+}
+
+export const googleSignIn = async () => {
+  await signIn('google')
+
+}
+export const googleSignOut = async () => {
+  await signOut()
 }

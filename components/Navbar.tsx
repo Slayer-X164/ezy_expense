@@ -8,14 +8,18 @@ import { RootState } from "@/redux/store";
 import { IoExitOutline } from "react-icons/io5";
 import { logOut, setUser } from "@/redux/slice/userSlice";
 import { useRouter } from "next/navigation";
-import { logout } from "@/app/actions/actions";
+import { googleSignOut, logout } from "@/app/actions/actions";
 import { useEffect } from "react";
+import { useSession } from "next-auth/react";
+import { auth } from "@/auth";
 
 const Navbar = () => {
   const dispatch = useDispatch();
   const router = useRouter();
 
   const user = useSelector((state: RootState) => state.user.user);
+  //google user
+  const { data: session, status } = useSession();
 
   useEffect(() => {
     const handleUserSession = async () => {
@@ -36,8 +40,9 @@ const Navbar = () => {
 
   const handleLogOut = () => {
     logout();
-    dispatch(logOut());
+    googleSignOut();
     router.push("/");
+    dispatch(logOut());
   };
 
   return (
@@ -66,7 +71,7 @@ const Navbar = () => {
         <Link href="/dashboard">Dashboard</Link>
       </div>
       <div>
-        {user?._id ? (
+        {user?.name || session?.user ? (
           <button
             onClick={handleLogOut}
             className="text-amber-200 cursor-pointer py-3 pl-6 flex items-center gap-2"

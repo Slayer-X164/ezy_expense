@@ -6,25 +6,26 @@ import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 import validateEmail from "@/utils/validateEmail";
 import { useRouter } from "next/navigation";
 import { FcGoogle } from "react-icons/fc";
-import { login } from "@/app/actions/actions";
+import { googleSignIn, login } from "@/app/actions/actions";
 import { useFormStatus } from "react-dom";
 import { useDispatch } from "react-redux";
 import { setUser } from "@/redux/slice/userSlice";
 
+
 const LoginForm = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isEyeOpen, setEyeOpen] = useState(false);
   const [formError, setFormError] = useState("");
   const [loginState, loginAction] = useActionState(login, undefined);
-  useEffect(()=>{
-    if(loginState?.success){
-    dispatch(setUser(loginState?.user))
-    router.push('/')
-  }
-  },[loginState])
+  useEffect(() => {
+    if (loginState?.success) {
+      dispatch(setUser(loginState?.user));
+      router.push("/");
+    }
+  }, [loginState]);
   const togglePasswordVisibility = () => {
     setEyeOpen((prev) => !prev);
   };
@@ -41,7 +42,11 @@ const LoginForm = () => {
           </p>
         </div>
 
-        <button className="w-full flex items-center bg-neutral-950/50 justify-center border border-neutral-800 rounded-lg py-3 hover:bg-neutral-800 cursor-pointer">
+        {/* google sign in */}
+        <button
+          onClick={googleSignIn}
+          className="w-full flex items-center bg-neutral-950/50 justify-center border border-neutral-800 rounded-lg py-3 hover:bg-neutral-800 cursor-pointer"
+        >
           <FcGoogle className="text-xl mr-2" />
           Log in with Google
         </button>

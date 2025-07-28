@@ -42,6 +42,7 @@ export default function RootLayout({
       <body
         className={` ${poppins.className} antialiased bg-neutral-950 text-neutral-50 box-border`}
       >
+        
         <Providers>
           <Navbar />
           {children}
