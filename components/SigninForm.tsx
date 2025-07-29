@@ -1,65 +1,36 @@
 "use client";
 
 import { FcGoogle } from "react-icons/fc";
-import { useEffect, useState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import Link from "next/link";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
-import validateEmail from "@/utils/validateEmail";
 import { useRouter } from "next/navigation";
 // redux imports
 import { useDispatch, useSelector } from "react-redux";
 import { setUser, logOut } from "@/redux/slice/userSlice";
 import { RootState } from "@/redux/store";
+import { register } from "@/action/user";
+import toast from "react-hot-toast";
 
-const SigninForm = () => {
-  const dispatch = useDispatch();
-
-  const user = useSelector((state: RootState) => state.user);
-  const router = useRouter();
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [formError, setFormError] = useState("");
-  const [isEyeOpen, setEyeOpen] = useState(false);
-
-  const createUserApi = async () => {
-    const res = await fetch("/api/user", {
-      method: "POST",
-      headers: { "Content-type": "application/json" },
-      body: JSON.stringify({ name, email, password }),
-    });
-    const resData = await res.json();
-    console.log("data: ",resData);
+type FormState = {
+  errors?: {
+    email?: string[];
+    password?: string[];
+    name?: string[];
+    confirmPassword?: string[];
   };
-
+};
+const SigninForm = () => {
+  const initialState: FormState = { errors: {} };
+  const [formState, formAction] = useActionState(register, initialState);
+  const [isEyeOpen, setEyeOpen] = useState(false);
+  if (!formState?.errors) {
+    toast.success("Account created successfully!");
+  }
   const togglePasswordVisibility = () => {
     setEyeOpen((prev) => !prev);
   };
-  const handleForm = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (name.length < 3) {
-      return setFormError("name must be atleast 3 characters ");
-    }
-    if (!validateEmail(email)) {
-      return setFormError("enter a valid email");
-    }
-    if (password.length <= 5) {
-      return setFormError("password must be atleast 6 characters");
-    }
-    if(!password){
-      return setFormError("enter a valid password")
-    }
-    if (password.trim() != confirmPassword.trim()) {
-      return setFormError("password does not match");
-    }
 
-    createUserApi();
-    dispatch(setUser({ id: "1232", name, email, token: "dsdfsef" }));
-    localStorage.setItem("user", JSON.stringify(user));
-    setFormError("");
-    router.push("/");
-  };
   return (
     <div className="h-full flex items-center  justify-center bg-transparent px-4">
       <div className="max-w-md w-full space-y-6">
@@ -69,13 +40,12 @@ const SigninForm = () => {
           </h2>
         </div>
 
-        <form className="space-y-4" onSubmit={handleForm}>
+        <form className="space-y-4" action={formAction}>
           <div>
             <label className="text-sm font-medium text-neutral-400">Name</label>
             <input
               type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              name="name"
               className="w-full mt-1 px-3 py-2 border border-neutral-700 rounded-lg bg-transparent text-white"
               placeholder="Enter your name"
             />
@@ -87,8 +57,7 @@ const SigninForm = () => {
             </label>
             <input
               type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              name="email"
               className="w-full mt-1 px-3 py-2 border border-neutral-700 rounded-lg bg-transparent text-white"
               placeholder="you@example.com"
             />
@@ -101,8 +70,7 @@ const SigninForm = () => {
             <div className="relative">
               <input
                 type={isEyeOpen ? "text" : "password"}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                name="password"
                 className="w-full mt-1 px-3 py-2 border border-neutral-700 rounded-lg bg-transparent text-white"
                 placeholder="••••••••"
               />
@@ -123,8 +91,7 @@ const SigninForm = () => {
             <div className="relative">
               <input
                 type={isEyeOpen ? "text" : "password"}
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
+                name="confirmPassword"
                 className="w-full mt-1 px-3 py-2 border border-neutral-700 rounded-lg bg-transparent text-white"
                 placeholder="••••••••"
               />
@@ -136,8 +103,13 @@ const SigninForm = () => {
                 {isEyeOpen ? <IoMdEye /> : <IoMdEyeOff />}
               </div>
             </div>
-            {formError && (
-              <p className="text-sm pt-2 text-red-500">{formError}</p>
+            {formState?.errors && (
+              <p className="text-sm pt-2 text-red-500">
+                {formState?.errors?.name ||
+                  formState?.errors?.email ||
+                  formState?.errors?.password ||
+                  formState?.errors?.confirmPassword}
+              </p>
             )}
           </div>
 

@@ -3,7 +3,6 @@
 import { useState } from "react";
 import Link from "next/link";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
-import validateEmail from "@/utils/validateEmail";
 import { useRouter } from "next/navigation";
 import { FcGoogle } from "react-icons/fc";
 
@@ -20,9 +19,6 @@ const LoginForm = () => {
   const handleForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(e);
-    if (!validateEmail(email)) {
-      return setFormError("enter a valid email");
-    }
     if (!password) {
       return setFormError("enter the password");
     }
