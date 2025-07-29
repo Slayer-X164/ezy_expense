@@ -1,24 +1,30 @@
-"use client"
+"use client";
 import { LogOut, MoveRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import {motion} from 'framer-motion'
+import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { IoExitOutline } from "react-icons/io5";
 import { logOut } from "@/redux/slice/userSlice";
+import { signOut, useSession } from "next-auth/react";
+import toast from "react-hot-toast";
 const Navbar = () => {
-  const dispatch = useDispatch()
-  const user = useSelector((state:RootState)=>state.user)
-  const handleLogOut=()=>{
-    dispatch(logOut())
-  }
+  const dispatch = useDispatch();
+  const { data } = useSession();
+  const session = data;
+ 
+
+  const handleLogOut = () => {
+    signOut({ redirectTo: "/" });
+  };
   return (
     <motion.nav
-    initial={{opacity:0,y:-10}}
-    animate={{opacity:1,y:0}}
-    transition={{duration:0.8,delay:1}}
-    className="w-full py-4 px-4 md:px-12 flex justify-between items-center ">
+      initial={{ opacity: 0, y: -10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8, delay: 1 }}
+      className="w-full py-4 px-4 md:px-12 flex justify-between items-center "
+    >
       <Link href="/">
         <div className="flex items-center gap-2">
           {" "}
@@ -33,16 +39,26 @@ const Navbar = () => {
         </div>
       </Link>
       <div className="hidden md:flex text-neutral-400 justify-center items-center gap-12">
-        <Link href="/" >Home</Link>
+        <Link href="/">Home</Link>
         <Link href="#features">Features</Link>
         <Link href="#testimonials">Testimonials</Link>
         <Link href="/dashboard">Dashboard</Link>
       </div>
       <div>
-
-        {!user.isLoggedIn ? <Link href="/login">
-          <button className="text-amber-200 cursor-pointer  py-3 pl-6 flex items-center gap-2">log in <MoveRight  /></button>
-        </Link>: <button onClick={handleLogOut} className="text-amber-200 cursor-pointer  py-3 pl-6 flex items-center gap-2">log out <IoExitOutline /></button>}
+        {!session?.user?.name ? (
+          <Link href="/login">
+            <button className="text-amber-200 cursor-pointer  py-3 pl-6 flex items-center gap-2">
+              log in <MoveRight />
+            </button>
+          </Link>
+        ) : (
+          <button
+            onClick={handleLogOut}
+            className="text-red-300 cursor-pointer  py-3 pl-6 flex items-center gap-2"
+          >
+            log out <IoExitOutline />
+          </button>
+        )}
       </div>
     </motion.nav>
   );

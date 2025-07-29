@@ -1,49 +1,74 @@
-// import NextAuth, { CredentialsSignin } from "next-auth";
-// import Credentials from "next-auth/providers/credentials";
-// import connectDB from "./lib/db";
-// import User from "./models/user.model";
-// import bcrypt from "bcryptjs";
+import NextAuth, { CredentialsSignin } from "next-auth";
+import Google from "next-auth/providers/google";
+import Credentials from "next-auth/providers/credentials";
+import connectDB from "./lib/db";
+import User from "./models/user.model";
+import bcrypt from "bcryptjs";
 
-// export const { handlers, signIn, signOut, auth } = NextAuth({
-//   providers: [
-//     Credentials({
-//       name: "credentials",
-//       credentials: {
-//         email: {
-//           label: "email",
-//           type: "email",
-//         },
-//         password: {
-//           label: "password",
-//           type: "password",
-//         },
-//       },
-//       authorize: async (credentials) => {
-//         const email = credentials.email as string | undefined;
-//         const password = credentials.password as string | undefined;
-//         if (!email || !password) {
-//           throw new CredentialsSignin("please provide email & password");
-//         }
-//         await connectDB();
-//         try {
-//           const user = await User.findOne({ email }); //error in this line saying User is undefiend
-//           if (!user) {
-//             throw new CredentialsSignin("user does not exist");
-//           }
-//           const isMatch = await bcrypt.compare(password, user.password);
-//           if (!isMatch) {
-//             throw new CredentialsSignin("invalid email or password");
-//           }
-//           const userData = {
-//             id: user._id,
-//             name: user.name,
-//             email: user.email,
-//           };
-//           return userData;
-//         } catch (error) {
-//           throw new Error("error while authenticating user");
-//         }
-//       },
-//     }),
-//   ],
-// });
+class CustomError extends CredentialsSignin{
+  constructor(code: string) {
+    super();
+    this.code = code;
+    this.message = code;
+    this.stack = undefined;
+  }
+}
+
+export const { handlers, signIn, signOut, auth } = NextAuth({
+  providers: [
+    Google,
+    Credentials({
+      // You can specify which fields should be submitted, by adding keys to the `credentials` object.
+      // e.g. domain, username, password, 2FA token, etc.
+      credentials: {
+        email: {},
+        password: {},
+      },
+      authorize: async (credentials) => {
+        await connectDB();
+        const user = await User.findOne({ email: credentials.email });
+
+        if (!user) {
+          throw new CustomError("User does not exist");
+        }
+        const isValidPass = await bcrypt.compare(
+          (credentials.password as string) ?? "",
+          user.password
+        );
+        if (!isValidPass) {
+          throw new CustomError("Invalid email or password");
+        }
+
+        // return user object with their profile data
+      
+
+        return user;
+      },
+    }),
+  ],
+  callbacks: {
+    async signIn({ user, account, profile }) {
+      try {
+        if (account?.provider == "google") {
+          await connectDB();
+          const existingUser = await User.findOne({ email: profile?.email });
+
+          if (!existingUser) {
+            const newUser = await User.create({
+              name: profile?.name,
+              email: profile?.email,
+            });
+            user.id = newUser._id.toString();
+          } else {
+            user.id = existingUser._id.toString();
+          }
+        }
+        console.log("Final user object after signIn callback:", user);
+        return true;
+      } catch (err: any) {
+        console.log("SignIn callback error:", err.message);
+        return false; // this will show the 'Access Denied' screen
+      }
+    },
+  },
+});

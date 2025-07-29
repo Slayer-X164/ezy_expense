@@ -5,6 +5,8 @@ import Star from "./Star";
 import { motion } from "framer-motion";
 import CurvyLine from "./CurvyLine";
 import GraphLine from "./GraphLine";
+import { useSession } from "next-auth/react";
+import toast from "react-hot-toast";
 
 const Hero = () => {
   const container = {
@@ -28,6 +30,7 @@ const Hero = () => {
      },
 
   };
+ 
 
   return (
     <main className="border-b-1 border-t-1 flex flex-col lg:flex-row border-neutral-400 w-full  lg:h-[80vh] ">

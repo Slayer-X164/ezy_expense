@@ -5,6 +5,8 @@ import Link from "next/link";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 import { useRouter } from "next/navigation";
 import { FcGoogle } from "react-icons/fc";
+import { signIn, useSession } from "next-auth/react";
+import toast from "react-hot-toast";
 
 const LoginForm = () => {
   const router = useRouter();
@@ -13,18 +15,36 @@ const LoginForm = () => {
   const [isEyeOpen, setEyeOpen] = useState(false);
   const [formError, setFormError] = useState("");
 
+  const { data } = useSession();
+  const session = data;
+
   const togglePasswordVisibility = () => {
     setEyeOpen((prev) => !prev);
   };
-  const handleForm = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(e);
     if (!password) {
       return setFormError("enter the password");
     }
+    const res = await signIn("credentials", {
+      email,
+      password,
+      redirect: false,
+    });
 
-    setFormError("");
-    router.push("/");
+    if (res?.error) {
+      setFormError(res?.code || "something went wrong");
+      return;
+    }
+
+    if (res?.ok) {
+      toast.success("Logged in successfully");
+      router.push("/");
+    }
+  };
+  const handleSignInFromGoogle = async () => {
+    await signIn("google", { redirectTo: "/" });
   };
   return (
     <div className="h-full flex items-center justify-center bg-transparent px-4">
@@ -38,7 +58,10 @@ const LoginForm = () => {
           </p>
         </div>
 
-        <button className="w-full flex items-center bg-neutral-950/50 justify-center border border-neutral-800 rounded-lg py-3 hover:bg-neutral-800 cursor-pointer">
+        <button
+          onClick={handleSignInFromGoogle}
+          className="w-full flex items-center bg-neutral-950/50 justify-center border border-neutral-800 rounded-lg py-3 hover:bg-neutral-800 cursor-pointer"
+        >
           <FcGoogle className="text-xl mr-2" />
           Log in with Google
         </button>
@@ -83,9 +106,7 @@ const LoginForm = () => {
               </div>
             </div>
           </div>
-          {formError && (
-            <p className="text-sm  text-red-500">{formError}</p>
-          )}
+          {formError && <p className="text-sm  text-red-500">{formError}</p>}
           <button
             type="submit"
             className="w-full cursor-pointer bg-neutral-800 text-white py-2 rounded-lg hover:bg-neutral-700 transition"
