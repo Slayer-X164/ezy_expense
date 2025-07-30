@@ -1,12 +1,3 @@
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-import NextAuth from "next-auth";
-import Google from "next-auth/providers/google";
-export const { handlers, signIn, signOut, auth } = NextAuth({
-  providers: [Google],
-=======
->>>>>>> 922949d5686bce071c745d1ca1cbd6962116b587
 import NextAuth, { CredentialsSignin } from "next-auth";
 import Google from "next-auth/providers/google";
 import Credentials from "next-auth/providers/credentials";
@@ -49,11 +40,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         }
 
         // return user object with their profile data
-<<<<<<< HEAD
 
-=======
-
->>>>>>> 922949d5686bce071c745d1ca1cbd6962116b587
 
         return user;
       },
@@ -84,8 +71,4 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       }
     },
   },
-<<<<<<< HEAD
-=======
->>>>>>> auth
->>>>>>> 922949d5686bce071c745d1ca1cbd6962116b587
 });

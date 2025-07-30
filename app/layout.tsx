@@ -4,15 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Providers from "@/redux/providers";
 import { Toaster } from "react-hot-toast";
-<<<<<<< HEAD
 import { SessionProvider } from "next-auth/react";
-=======
-<<<<<<< HEAD
-
-=======
-import { SessionProvider } from "next-auth/react";
->>>>>>> auth
->>>>>>> 922949d5686bce071c745d1ca1cbd6962116b587
 const robotoCondensed = Roboto_Condensed({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
   variable: "--font-robotoCondensed",
@@ -50,17 +42,6 @@ export default function RootLayout({
       <body
         className={` ${poppins.className} antialiased bg-neutral-950 text-neutral-50 box-border`}
       >
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-        
-        <Providers>
-          <Navbar />
-          {children}
-        </Providers>
-        <Toaster/>
-=======
->>>>>>> 922949d5686bce071c745d1ca1cbd6962116b587
         <SessionProvider>
           <Toaster />
           <Providers>
@@ -68,12 +49,7 @@ export default function RootLayout({
             {children}
           </Providers>
         </SessionProvider>
-<<<<<<< HEAD
-=======
->>>>>>> auth
->>>>>>> 922949d5686bce071c745d1ca1cbd6962116b587
       </body>
-
     </html>
   );
 }

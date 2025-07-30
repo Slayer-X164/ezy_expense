@@ -9,35 +9,6 @@ import { redirect, useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser, logOut } from "@/redux/slice/userSlice";
 import { RootState } from "@/redux/store";
-<<<<<<< HEAD
-import toast from "react-hot-toast";
-
-const SigninForm = () => {
-  const dispatch = useDispatch();
-
-  const user = useSelector((state: RootState) => state.user);
-  const router = useRouter();
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [formError, setFormError] = useState("");
-  const [isEyeOpen, setEyeOpen] = useState(false);
-
-  const createUserApi = async () => {
-    const res = await fetch("/api/user", {
-      method: "POST",
-      headers: { "Content-type": "application/json" },
-      body: JSON.stringify({ name, email, password }),
-    });
-    const resData = await res.json();
-    if(resData.success){
-      toast.success(resData.message)
-    }else{
-      toast.error(resData.message)
-    }
-    console.log("data: ",resData);
-=======
 import { register } from "@/action/user";
 import toast from "react-hot-toast";
 
@@ -47,7 +18,6 @@ type FormState = {
     password?: string[];
     name?: string[];
     confirmPassword?: string[];
->>>>>>> auth
   };
   success?: boolean;
 };
@@ -61,14 +31,6 @@ const SigninForm = () => {
     setEyeOpen((prev) => !prev);
   };
 
-<<<<<<< HEAD
-    createUserApi();
-    dispatch(setUser({ id: "1232", name, email, token: "dsdfsef" }));
-    setFormError("");
-    router.push("/login");
-  };
-=======
->>>>>>> auth
   return (
     <div className="h-full flex items-center  justify-center bg-transparent px-4">
       <div className="max-w-md w-full space-y-6">
