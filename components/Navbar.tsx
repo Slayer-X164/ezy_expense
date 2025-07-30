@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { IoExitOutline } from "react-icons/io5";
+<<<<<<< HEAD
 import { logOut, setUser } from "@/redux/slice/userSlice";
 import { useRouter } from "next/navigation";
 import { googleSignOut, logout } from "@/app/actions/actions";
@@ -45,12 +46,30 @@ const Navbar = () => {
     dispatch(logOut());
   };
 
+=======
+import { logOut } from "@/redux/slice/userSlice";
+import { signOut, useSession } from "next-auth/react";
+import toast from "react-hot-toast";
+const Navbar = () => {
+  const dispatch = useDispatch();
+  const { data } = useSession();
+  const session = data;
+ 
+
+  const handleLogOut = () => {
+    signOut({ redirectTo: "/" });
+  };
+>>>>>>> auth
   return (
     <motion.nav
       initial={{ opacity: 0, y: -10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, delay: 1 }}
+<<<<<<< HEAD
       className="w-full py-4 px-4 md:px-12 flex justify-between items-center"
+=======
+      className="w-full py-4 px-4 md:px-12 flex justify-between items-center "
+>>>>>>> auth
     >
       <Link href="/">
         <div className="flex items-center gap-2">
@@ -71,6 +90,7 @@ const Navbar = () => {
         <Link href="/dashboard">Dashboard</Link>
       </div>
       <div>
+<<<<<<< HEAD
         {user?.name || session?.user ? (
           <button
             onClick={handleLogOut}
@@ -84,6 +104,21 @@ const Navbar = () => {
               log in <MoveRight />
             </button>
           </Link>
+=======
+        {!session?.user?.name ? (
+          <Link href="/login">
+            <button className="text-amber-200 cursor-pointer  py-3 pl-6 flex items-center gap-2">
+              log in <MoveRight />
+            </button>
+          </Link>
+        ) : (
+          <button
+            onClick={handleLogOut}
+            className="text-red-300 cursor-pointer  py-3 pl-6 flex items-center gap-2"
+          >
+            log out <IoExitOutline />
+          </button>
+>>>>>>> auth
         )}
       </div>
     </motion.nav>

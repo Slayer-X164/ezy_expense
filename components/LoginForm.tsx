@@ -3,14 +3,18 @@
 import { useActionState, useEffect, useState } from "react";
 import Link from "next/link";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
-import validateEmail from "@/utils/validateEmail";
 import { useRouter } from "next/navigation";
 import { FcGoogle } from "react-icons/fc";
+<<<<<<< HEAD
 import { googleSignIn, login } from "@/app/actions/actions";
 import { useFormStatus } from "react-dom";
 import { useDispatch } from "react-redux";
 import { setUser } from "@/redux/slice/userSlice";
 
+=======
+import { signIn, useSession } from "next-auth/react";
+import toast from "react-hot-toast";
+>>>>>>> auth
 
 const LoginForm = () => {
   const dispatch = useDispatch();
@@ -19,6 +23,7 @@ const LoginForm = () => {
   const [password, setPassword] = useState("");
   const [isEyeOpen, setEyeOpen] = useState(false);
   const [formError, setFormError] = useState("");
+<<<<<<< HEAD
   const [loginState, loginAction] = useActionState(login, undefined);
   useEffect(() => {
     if (loginState?.success) {
@@ -30,6 +35,40 @@ const LoginForm = () => {
     setEyeOpen((prev) => !prev);
   };
 
+=======
+
+  const { data } = useSession();
+  const session = data;
+
+  const togglePasswordVisibility = () => {
+    setEyeOpen((prev) => !prev);
+  };
+  const handleForm = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log(e);
+    if (!password) {
+      return setFormError("enter the password");
+    }
+    const res = await signIn("credentials", {
+      email,
+      password,
+      redirect: false,
+    });
+
+    if (res?.error) {
+      setFormError(res?.code || "something went wrong");
+      return;
+    }
+
+    if (res?.ok) {
+      toast.success("Logged in successfully");
+      router.push("/");
+    }
+  };
+  const handleSignInFromGoogle = async () => {
+    await signIn("google", { redirectTo: "/" });
+  };
+>>>>>>> auth
   return (
     <div className="h-full flex items-center justify-center bg-transparent px-4">
       <div className="max-w-md w-full space-y-6">
@@ -42,9 +81,14 @@ const LoginForm = () => {
           </p>
         </div>
 
+<<<<<<< HEAD
         {/* google sign in */}
         <button
           onClick={googleSignIn}
+=======
+        <button
+          onClick={handleSignInFromGoogle}
+>>>>>>> auth
           className="w-full flex items-center bg-neutral-950/50 justify-center border border-neutral-800 rounded-lg py-3 hover:bg-neutral-800 cursor-pointer"
         >
           <FcGoogle className="text-xl mr-2" />
@@ -93,6 +137,7 @@ const LoginForm = () => {
               </div>
             </div>
           </div>
+<<<<<<< HEAD
           {loginState && (
             <p className="text-sm  text-red-500">
               {loginState?.error?.email || loginState?.error?.password}
@@ -100,6 +145,15 @@ const LoginForm = () => {
           )}
           {/* submit btn */}
           <SubmitBtn />
+=======
+          {formError && <p className="text-sm  text-red-500">{formError}</p>}
+          <button
+            type="submit"
+            className="w-full cursor-pointer bg-neutral-800 text-white py-2 rounded-lg hover:bg-neutral-700 transition"
+          >
+            Log in
+          </button>
+>>>>>>> auth
         </form>
 
         <p className="text-center text-sm text-neutral-500">
