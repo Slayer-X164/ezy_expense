@@ -4,7 +4,7 @@ import { FcGoogle } from "react-icons/fc";
 import { useActionState, useEffect, useState } from "react";
 import Link from "next/link";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 // redux imports
 import { useDispatch, useSelector } from "react-redux";
 import { setUser, logOut } from "@/redux/slice/userSlice";
@@ -19,14 +19,14 @@ type FormState = {
     name?: string[];
     confirmPassword?: string[];
   };
+  success?: boolean;
 };
 const SigninForm = () => {
+  const router = useRouter();
   const initialState: FormState = { errors: {} };
   const [formState, formAction] = useActionState(register, initialState);
   const [isEyeOpen, setEyeOpen] = useState(false);
-  if (!formState?.errors) {
-    toast.success("Account created successfully!");
-  }
+
   const togglePasswordVisibility = () => {
     setEyeOpen((prev) => !prev);
   };

@@ -6,8 +6,7 @@ import User from "@/models/user.model";
 import bcrypt from "bcryptjs";
 import { redirect } from "next/navigation";
 
-
-export const register = async (prevState:any,formdata: FormData) => {
+export const register = async (prevState: any, formdata: FormData) => {
   const name = formdata.get("name") as string;
   const email = formdata.get("email") as string;
   const password = formdata.get("password") as string;
@@ -22,16 +21,17 @@ export const register = async (prevState:any,formdata: FormData) => {
 
   const result = registerSchema.safeParse(data);
   if (!result.success) {
-  return {
-    errors: result.error.flatten().fieldErrors
-  };
-}
+    return {
+      errors: result.error.flatten().fieldErrors,
+      success: false,
+    };
+  }
 
   await connectDB();
   // check for existing user
   const existingUser = await User.findOne({ email });
   if (existingUser) {
-    return {errors:{email:['user already exists']}}
+    return { errors: { email: ["user already exists"] }, success: false };
   }
 
   //hashing user password
@@ -39,6 +39,6 @@ export const register = async (prevState:any,formdata: FormData) => {
 
   //creating new user in database
   await User.create({ name, email, password: hashedPass });
-  redirect("/login");
+  return { errors:{},success: true };
 
 };
