@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import Providers from "@/redux/providers";
 import { Toaster } from "react-hot-toast";
 import { SessionProvider } from "next-auth/react";
+import Footer from "@/components/Footer";
 const robotoCondensed = Roboto_Condensed({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
   variable: "--font-robotoCondensed",
@@ -40,13 +41,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={` ${poppins.className} antialiased bg-neutral-950 text-neutral-50 box-border`}
+        className={` ${poppins.className} antialiased bg-black text-neutral-50 box-border`}
       >
         <SessionProvider>
           <Toaster />
           <Providers>
             <Navbar />
             {children}
+            <Footer/>
           </Providers>
         </SessionProvider>
       </body>

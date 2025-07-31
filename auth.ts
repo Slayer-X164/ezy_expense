@@ -57,6 +57,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             const newUser = await User.create({
               name: profile?.name,
               email: profile?.email,
+              image : profile?.picture
             });
             user.id = newUser._id.toString();
           } else {

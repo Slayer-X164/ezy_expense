@@ -1,0 +1,29 @@
+import mongoose from "mongoose";
+
+const budgetsScehma = new mongoose.Schema({
+  id: {
+    type: String,
+    required: true,
+  },
+  name: {
+    type: String,
+    required: true,
+  },
+  amount: {
+    type: String,
+    required: true,
+  },
+  icon: {
+    type: String,
+  },
+  createdBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
+});
+
+const Budget =
+  mongoose.models.Budget || mongoose.model("Budget", budgetsScehma);
+
+export default Budget;

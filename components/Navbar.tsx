@@ -9,6 +9,7 @@ import { IoExitOutline } from "react-icons/io5";
 import { logOut } from "@/redux/slice/userSlice";
 import { signOut, useSession } from "next-auth/react";
 import toast from "react-hot-toast";
+import ProfileDropdown from "./ProfileDropdown";
 const Navbar = () => {
   const dispatch = useDispatch();
   const { data } = useSession();
@@ -23,7 +24,7 @@ const Navbar = () => {
       initial={{ opacity: 0, y: -10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, delay: 1 }}
-      className="w-full py-4 px-4 md:px-12 flex justify-between items-center "
+      className="w-full py-2 lg:py-4 px-4 md:px-12 flex justify-between items-center "
     >
       <Link href="/">
         <div className="flex items-center gap-2">
@@ -42,7 +43,7 @@ const Navbar = () => {
         <Link href="/">Home</Link>
         <Link href="#features">Features</Link>
         <Link href="#testimonials">Testimonials</Link>
-        <Link href="/dashboard">Dashboard</Link>
+        <Link href={session?.user?'/dashboard/dashboard-page':'/login'}>Dashboard</Link>
       </div>
       <div>
         {!session?.user?.name ? (
@@ -52,12 +53,14 @@ const Navbar = () => {
             </button>
           </Link>
         ) : (
-          <button
-            onClick={handleLogOut}
-            className="text-red-300 cursor-pointer  py-3 pl-6 flex items-center gap-2"
-          >
-            log out <IoExitOutline />
-          </button>
+
+          <ProfileDropdown/>
+          // <button
+          //   onClick={handleLogOut}
+          //   className="text-red-300 cursor-pointer  py-3 pl-6 flex items-center gap-2"
+          // >
+          //   log out <IoExitOutline />
+          // </button>
         )}
       </div>
     </motion.nav>

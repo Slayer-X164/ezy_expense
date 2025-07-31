@@ -10,7 +10,7 @@ export default function dashboardPage() {
   }
   return (
     <div
-       className="min-h-[80vh] w-full  "
+       className=" w-full  "
     >
       hello
     </div>
