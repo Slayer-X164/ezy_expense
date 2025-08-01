@@ -1,8 +1,8 @@
 import connectDB from "@/lib/db";
 import Budget from "@/models/budgets.model";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export default async function GET() {
+export async function GET() {
   try {
     connectDB();
     const allBudgets = await Budget.find();
@@ -19,4 +19,31 @@ export default async function GET() {
       budgets: allBudgets,
     });
   } catch (error) {}
+}
+export async function POST(req: NextRequest) {
+  try {
+    await connectDB();
+    const { emoji, name, amount,createdBy } = await req.json();
+
+    const ifBudgetExists = await Budget.findOne({ name });
+    if (ifBudgetExists) {
+      return NextResponse.json({
+        success: false,
+        message: "Budget already exists",
+        status: 400,
+      });
+    }
+    await Budget.create({ emoji, name, amount,createdBy });
+    return NextResponse.json({
+      success: true,
+      message: "Budget Created",
+    });
+  } catch (error: any) {
+    console.log("error while creating budget", error.message);
+    return NextResponse.json({
+      success: false,
+      message: "Internal Server Error",
+      status: 500,
+    });
+  }
 }

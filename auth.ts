@@ -5,7 +5,7 @@ import connectDB from "./lib/db";
 import User from "./models/user.model";
 import bcrypt from "bcryptjs";
 
-class CustomError extends CredentialsSignin{
+class CustomError extends CredentialsSignin {
   constructor(code: string) {
     super();
     this.code = code;
@@ -41,15 +41,15 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
         // return user object with their profile data
 
-
         return user;
       },
     }),
   ],
   callbacks: {
     async signIn({ user, account, profile }) {
+      // your existing logic here
       try {
-        if (account?.provider == "google") {
+        if (account?.provider === "google") {
           await connectDB();
           const existingUser = await User.findOne({ email: profile?.email });
 
@@ -57,19 +57,32 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             const newUser = await User.create({
               name: profile?.name,
               email: profile?.email,
-              image : profile?.picture
+              image: profile?.picture,
             });
             user.id = newUser._id.toString();
           } else {
             user.id = existingUser._id.toString();
           }
         }
-        console.log("Final user object after signIn callback:", user);
         return true;
       } catch (err: any) {
         console.log("SignIn callback error:", err.message);
-        return false; // this will show the 'Access Denied' screen
+        return false;
       }
+    },
+
+    async jwt({ token, user }) {
+      if (user?.id) {
+        token.id = user.id;
+      }
+      return token;
+    },
+
+    async session({ session, token }) {
+      if (token?.id) {
+        session.user.id = token.id.toString();
+      }
+      return session;
     },
   },
 });

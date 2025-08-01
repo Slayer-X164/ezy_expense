@@ -4,15 +4,21 @@ import React, { useRef, useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import EmojiPicker, { EmojiStyle, Theme } from "emoji-picker-react";
 import { z } from "zod";
+import toast from "react-hot-toast";
+import { useSession } from "next-auth/react";
+import { log } from "console";
 
 const schema = z.object({
-  name: z.string().min(3,"name must be atleast 3 character long"),
+  name: z.string().min(3, "name must be atleast 3 character long"),
   amount: z
     .number("Amount must be a number")
     .positive("Amount must be greater than 0"),
 });
 
 const CreateNewBudget = () => {
+  const { data: session } = useSession();
+  const userId = session?.user?.id;
+
   const [open, setOpen] = useState(false);
   const [emoji, setEmoji] = useState("👚");
   const [openEmojiPicker, setOpenEmojiPicker] = useState(false);
@@ -28,7 +34,7 @@ const CreateNewBudget = () => {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     const parsed = schema.safeParse({
@@ -44,10 +50,20 @@ const CreateNewBudget = () => {
       });
       return;
     }
-
-    // If successful
-    setErrors({});
-    setOpen(false);
+    const res = await fetch("/api/budgets", {
+      method: "POST",
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify({ emoji, name, amount, createdBy: userId }),
+    });
+    const resData = await res.json();
+    if (res.ok && resData.success) {
+      // If successful
+      setErrors({});
+      setOpen(false);
+      toast.success(resData?.message);
+    } else {
+      toast.error(resData?.message || "something went wrong");
+    }
   };
 
   return (
