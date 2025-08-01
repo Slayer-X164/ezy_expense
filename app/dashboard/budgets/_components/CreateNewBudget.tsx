@@ -20,7 +20,7 @@ const CreateNewBudget = () => {
   const userId = session?.user?.id;
 
   const [open, setOpen] = useState(false);
-  const [emoji, setEmoji] = useState("👚");
+  const [emoji, setEmoji] = useState("🍔");
   const [openEmojiPicker, setOpenEmojiPicker] = useState(false);
   const [name, setname] = useState("");
   const [amount, setAmount] = useState("");
@@ -50,6 +50,8 @@ const CreateNewBudget = () => {
       });
       return;
     }
+    // console.log('emoji:',emoji);
+
     const res = await fetch("/api/budgets", {
       method: "POST",
       headers: { "Content-type": "application/json" },
@@ -59,6 +61,9 @@ const CreateNewBudget = () => {
     if (res.ok && resData.success) {
       // If successful
       setErrors({});
+      setname('')
+      setEmoji('🍔')
+      setAmount('')
       setOpen(false);
       toast.success(resData?.message);
     } else {

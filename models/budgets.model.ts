@@ -9,8 +9,9 @@ const budgetsScehma = new mongoose.Schema({
     type: String,
     required: true,
   },
-  icon: {
+  emoji: {
     type: String,
+    required: true,
   },
   createdBy: {
     type: mongoose.Schema.Types.ObjectId,

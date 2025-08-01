@@ -23,7 +23,7 @@ export async function GET() {
 export async function POST(req: NextRequest) {
   try {
     await connectDB();
-    const { emoji, name, amount,createdBy } = await req.json();
+    const { emoji, name, amount, createdBy } = await req.json();
 
     const ifBudgetExists = await Budget.findOne({ name });
     if (ifBudgetExists) {
@@ -33,7 +33,7 @@ export async function POST(req: NextRequest) {
         status: 400,
       });
     }
-    await Budget.create({ emoji, name, amount,createdBy });
+    await Budget.create({ emoji, name, amount, createdBy });
     return NextResponse.json({
       success: true,
       message: "Budget Created",
