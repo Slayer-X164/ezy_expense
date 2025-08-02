@@ -6,7 +6,7 @@ import EmojiPicker, { EmojiStyle, Theme } from "emoji-picker-react";
 import { z } from "zod";
 import toast from "react-hot-toast";
 import { useSession } from "next-auth/react";
-import { log } from "console";
+
 
 const schema = z.object({
   name: z.string().min(3, "name must be atleast 3 character long"),
@@ -15,7 +15,7 @@ const schema = z.object({
     .positive("Amount must be greater than 0"),
 });
 
-const CreateNewBudget = () => {
+const CreateNewBudget = ({setRefresh,refresh}:any) => {
   const { data: session } = useSession();
   const userId = session?.user?.id;
 
@@ -65,6 +65,7 @@ const CreateNewBudget = () => {
       setEmoji('🍔')
       setAmount('')
       setOpen(false);
+      setRefresh(!refresh)
       toast.success(resData?.message);
     } else {
       toast.error(resData?.message || "something went wrong");
@@ -76,7 +77,7 @@ const CreateNewBudget = () => {
       {/* Trigger */}
       <div
         onClick={() => setOpen(true)}
-        className="bg-neutral-900/70 border-dashed border-2 cursor-pointer border-neutral-700 p-10 flex items-center justify-center flex-col text-neutral-500 hover:bg-neutral-800/70"
+        className="bg-neutral-900/70 w-[350px] h-[100px] border-dashed border-2 cursor-pointer border-neutral-700 p-10 flex items-center justify-center flex-col text-neutral-500 hover:bg-neutral-800/70"
       >
         <h1>+</h1>
         <h2>Create New Budget</h2>

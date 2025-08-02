@@ -1,24 +1,27 @@
 import mongoose from "mongoose";
 
-const budgetsScehma = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
+const budgetsScehma = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+    },
+    amount: {
+      type: String,
+      required: true,
+    },
+    emoji: {
+      type: String,
+      required: true,
+    },
+    createdBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
   },
-  amount: {
-    type: String,
-    required: true,
-  },
-  emoji: {
-    type: String,
-    required: true,
-  },
-  createdBy: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-    required: true,
-  },
-});
+  { timestamps: true }
+);
 
 const Budget =
   mongoose.models.Budget || mongoose.model("Budget", budgetsScehma);
