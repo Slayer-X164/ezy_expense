@@ -146,7 +146,7 @@ const CreateNewBudget = () => {
               <div className="flex flex-col gap-2">
                 <label className="text-neutral-400">amount</label>
                 <input
-                  type="number"
+                  type="text"
                   placeholder="eg: 2000"
                   value={amount}
                   onChange={(e) => setAmount(e.target.value)}
