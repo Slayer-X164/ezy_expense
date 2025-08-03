@@ -21,7 +21,7 @@ export default function GraphLine() {
      <svg width="100%" height="200" viewBox="0 0 300 200" fill="none">
       <motion.path
         d={pathData}
-        stroke="#8c8c8c"
+        stroke="#525252"
         strokeWidth={1}
         strokeLinecap="round"
         strokeLinejoin="round"

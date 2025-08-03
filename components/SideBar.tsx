@@ -17,7 +17,7 @@ const SideBar = () => {
   const pathname = usePathname()
 
   return (
-    <div className=" border-r border-neutral-600">
+    <div className=" border-r border-neutral-800">
       <div className="flex pt-8 w-[200px] md:w-[250px] lg:w-[350px] flex-col py-4 gap-4    text-lg font-extralight ">
         {links.map((link) => {
           const isActive = pathname === link.href || pathname.startsWith(link.href + "/")

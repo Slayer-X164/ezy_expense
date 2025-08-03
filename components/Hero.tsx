@@ -34,12 +34,12 @@ const Hero = () => {
 
   return (
     <>
-      <main className="border-b-1 border-t-1  flex flex-col lg:flex-row border-neutral-600 w-full  lg:h-[80vh] ">
+      <main className="border-b-1 border-t-1  flex flex-col lg:flex-row border-neutral-800 w-full  lg:h-[80vh] ">
         <motion.div
           variants={container}
           initial="hidden"
           animate="show"
-          className="flex flex-col items-center justify-center gap-6 w-[100%] lg:w-[50%] h-full  lg:border-r-1 border-neutral-600 py-12 lg:py-6 px-0 md:px-12 "
+          className="flex flex-col items-center justify-center gap-6 w-[100%] lg:w-[50%] h-full  lg:border-r-1 border-neutral-800 py-12 lg:py-6 px-0 md:px-12 "
         >
           <motion.p
             variants={item}
@@ -64,15 +64,15 @@ const Hero = () => {
             </Link>
           </motion.div>
         </motion.div>
-        <div className="w-[100%] lg:w-[50%] h-full grid grid-rows-3  border-t-1 lg:border-0 border-neutral-600">
+        <div className="w-[100%] lg:w-[50%] h-full grid grid-rows-3  border-t-1 lg:border-0 border-neutral-800">
           {/* 1st row */}
           <div className="w-full  grid grid-cols-3">
             {/* first cube */}
-            <div className="w-full overflow-hidden border-r-1 border-neutral-600 flex justify-center items-center">
+            <div className="w-full overflow-hidden border-r-1 border-neutral-800 flex justify-center items-center">
               <motion.div
                 animate={{ rotate: 360 }}
                 transition={{ repeat: Infinity, duration: 10, ease: "linear" }}
-                className="bg-gradient-to-r  w-34 md:w-full border-neutral-600"
+                className="bg-gradient-to-r  w-34 md:w-full border-neutral-800"
               >
                 <Star color1="#faff66" color2="#f5a2f5" />
               </motion.div>
@@ -80,13 +80,13 @@ const Hero = () => {
             {/* second cube */}
             <div className="w-full "></div>
             {/* third cube */}
-            <div className="w-full  border-l-1 border-neutral-600 overflow-hidden">
+            <div className="w-full  border-l-1 border-neutral-800 overflow-hidden">
               <CurvyLine colorStart="#faff66" colorEnd="#f5a2f5" />
               {/* <CurvyLine  colorStart='#faff66' colorEnd="#f5a2f5" /> */}
             </div>
           </div>
           {/* 2nd row */}
-          <div className="w-full relative border-t-1 border-neutral-600 border-b-1">
+          <div className="w-full relative border-t-1 border-neutral-800 border-b-1">
             <motion.h3
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -114,17 +114,17 @@ const Hero = () => {
           {/* 3rd row */}
           <div className="w-full  grid grid-cols-3">
             {/* first cube */}
-            <div className="w-full  border-r-1 border-neutral-600 overflow-hidden">
+            <div className="w-full  border-r-1 border-neutral-800 overflow-hidden">
               <CurvyLine colorStart="#5542bd" colorEnd="#faff66" />
             </div>
             {/* second cube */}
             <div className="w-full "></div>
             {/* third cube */}
-            <div className="w-full overflow-hidden  border-l-1 border-neutral-600 flex justify-center items-center">
+            <div className="w-full overflow-hidden  border-l-1 border-neutral-800 flex justify-center items-center">
               <motion.div
                 animate={{ rotate: 360 }}
                 transition={{ repeat: Infinity, duration: 10, ease: "linear" }}
-                className=" border-neutral-600 w-34 md:w-full"
+                className=" border-neutral-800 w-34 md:w-full"
               >
                 <Star color1="#64e873" color2="#e68e87" />
               </motion.div>

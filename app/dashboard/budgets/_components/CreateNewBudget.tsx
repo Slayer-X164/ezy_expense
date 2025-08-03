@@ -77,21 +77,21 @@ const CreateNewBudget = ({setRefresh,refresh}:any) => {
       {/* Trigger */}
       <div
         onClick={() => setOpen(true)}
-        className="bg-neutral-900/70 w-[350px] h-[100px] border-dashed border-2 cursor-pointer border-neutral-700 p-10 flex items-center justify-center flex-col text-neutral-500 hover:bg-neutral-800/70"
+        className="bg-neutral-950/70 w-[350px] h-[100px] border-dashed border-2 cursor-pointer border-neutral-700 p-10 flex items-center justify-center flex-col text-neutral-500 hover:bg-neutral-800/70"
       >
-        <h1>+</h1>
-        <h2>Create New Budget</h2>
+        <h1 className="text-2xl">+</h1>
+        <h2 className="text-md">Create New Budget</h2>
       </div>
 
       {/* Modal */}
       {open && (
         <div
           onClick={onBackdropClick}
-          className="fixed inset-0 z-40 flex items-center justify-center bg-black/60"
+          className="fixed inset-0 z-40 flex items-center justify-center bg-black/50 backdrop-blur-xs"
         >
           <div
             ref={modalRef}
-            className="bg-neutral-900 z-50 border border-neutral-800 py-4 px-6 w-full max-w-md shadow-lg"
+            className="bg-neutral-950 z-50 border border-neutral-800 py-4 px-6 w-full max-w-md shadow-lg"
           >
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-xl font-bold text-neutral-200">Add Budget</h2>
@@ -113,7 +113,7 @@ const CreateNewBudget = ({setRefresh,refresh}:any) => {
                 </label>
                 <button
                   type="button"
-                  className="p-2 bg-neutral-800 border border-neutral-700 text-6xl"
+                  className="p-2 bg-neutral-950 border border-neutral-800 text-6xl"
                   onClick={() => setOpenEmojiPicker(!openEmojiPicker)}
                 >
                   {emoji}
@@ -140,7 +140,7 @@ const CreateNewBudget = ({setRefresh,refresh}:any) => {
                   placeholder="eg: fast food"
                   value={name}
                   onChange={(e) => setname(e.target.value)}
-                  className="border border-neutral-700 bg-neutral-800 text-white px-3 py-2 outline-none focus:ring-2 focus:ring-green-700"
+                  className="border border-neutral-800 bg-neutral-950 text-white px-3 py-2 outline-none focus:ring-2 focus:ring-green-700"
                 />
               </div>
 
@@ -151,7 +151,7 @@ const CreateNewBudget = ({setRefresh,refresh}:any) => {
                   placeholder="eg: 2000"
                   value={amount}
                   onChange={(e) => setAmount(e.target.value)}
-                  className="border border-neutral-700 bg-neutral-800 text-white px-3 py-2 outline-none focus:ring-2 focus:ring-green-700"
+                  className="border border-neutral-800 bg-neutral-950 text-white px-3 py-2 outline-none focus:ring-2 focus:ring-green-700"
                 />
               </div>
 
@@ -165,7 +165,7 @@ const CreateNewBudget = ({setRefresh,refresh}:any) => {
 
               <button
                 type="submit"
-                className="bg-green-800 mt-2 text-white py-2 hover:bg-green-700 cursor-pointer transition"
+                className="bg-gradient-to-br shadow-xl shadow-green-600/20 from-green-600 via-green-700 to-green-600 mt-2 text-white py-2 hover:bg-green-700 cursor-pointer transition"
               >
                 Save
               </button>
