@@ -32,14 +32,7 @@ export async function POST(req: NextRequest) {
     await connectDB();
     const { emoji, name, amount, createdBy } = await req.json();
 
-    const ifBudgetExists = await Budget.findOne({ name });
-    if (ifBudgetExists) {
-      return NextResponse.json({
-        success: false,
-        message: "Budget already exists",
-        status: 400,
-      });
-    }
+   
     await Budget.create({ emoji, name, amount, createdBy });
     return NextResponse.json({
       success: true,

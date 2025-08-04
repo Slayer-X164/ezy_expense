@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import CreateNewBudget from "./CreateNewBudget";
 import { useSession } from "next-auth/react";
 import BudgetCardSkeleton from "./BudgetCardSkeleton";
+import Link from "next/link";
 
 interface IBudget {
   _id: string;
@@ -65,9 +66,10 @@ const BudgetList = () => {
       <CreateNewBudget setRefresh={setRefresh} refresh={refresh} />
       {budgets.length > 0
         ? budgets.map((budget, idx) => (
+            <Link key={idx} href={`/dashboard/expenses/${budget._id}`}>
             <div
-              key={idx}
-              className="flex items-center justify-between border-1 border-neutral-800 p-3 w-[350px] h-[100px]"
+
+              className="flex hover:shadow-2xl hover:shadow-green-700/20 cursor-pointer hover:border-green-600/30 hover:bg-green-600/15 items-center justify-between border-1 border-neutral-800 p-3 w-[350px] h-[100px]"
             >
               <div className=" items-center justify-center gap-2 flex">
                 <h2 className="text-3xl bg-neutral-800/70 p-1 rounded-full">
@@ -91,6 +93,7 @@ const BudgetList = () => {
                 </h3>
               </div>
             </div>
+            </Link>
           ))
         : [1, 2, 3, 4].map((element, idx) => (
             <div key={idx}>
