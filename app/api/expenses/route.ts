@@ -36,7 +36,7 @@ export async function POST(req: NextRequest) {
 export async function GET() {
   try {
     await connectDB();
-    const allExpense = await Expense.find().populate('createdBy');
+    const allExpense = await Expense.find().populate('budgetId createdBy');
     if (!allExpense) {
       return NextResponse.json({
         success: false,
