@@ -7,7 +7,17 @@ import toast from "react-hot-toast";
 import { FaEdit } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
 import z from "zod";
+import ExpenseSkeleton from "./ExpenseSkeleton";
 
+interface BudgetData {
+  _id: string;
+  name: string;
+  amount: string;
+  emoji: string;
+  createdBy: {
+    _id: string;
+  };
+}
 interface ExpenseData {
   _id: string;
   name: string;
@@ -33,15 +43,15 @@ interface ExpensesTableProps {
 const schema = z.object({
   name: z.string().min(3, "Name must be at least 3 characters"),
   amount: z
-    .number({ invalid_type_error: "Amount must be a number" })
+    .number("Amount must be a number")
     .positive("Amount must be greater than 0"),
 });
 
 export default function ExpensesTable({ open, setOpen }: ExpensesTableProps) {
   const { data: session, status } = useSession();
   const [expData, setExpData] = useState<ExpenseData[]>([]);
-  const [emoji, setEmoji] = useState("🍔");
-
+  const [budgets, setBudgets] = useState<BudgetData[]>([]);
+  const [loading, setLoading] = useState(true);
   const [name, setName] = useState("");
   const [amount, setAmount] = useState("");
   const [errors, setErrors] = useState<{ name?: string; amount?: string }>({});
@@ -64,14 +74,33 @@ export default function ExpensesTable({ open, setOpen }: ExpensesTableProps) {
         (expense: any) => expense.createdBy._id === session?.user?.id
       );
       setExpData(userExpenses);
+      setLoading(false);
       console.log("filtered expenses", userExpenses);
     } else {
       console.error("Failed to fetch expenses:", resData.message);
     }
   };
 
+  const getAllBudgets = async () => {
+    if (!session?.user?.id) return;
+
+    const res = await fetch("/api/budgets", { method: "GET" });
+    const resData = await res.json();
+    if (resData.success) {
+      const userBudgets = resData.budgets.filter(
+        (budget: any) => budget.createdBy._id === session?.user?.id
+      );
+
+      setBudgets(userBudgets);
+      console.log("filtered budgets", userBudgets);
+    } else {
+      console.error("Failed to fetch budgets:", resData.message);
+    }
+  };
+
   useEffect(() => {
     getAllExpense();
+    getAllBudgets();
   }, [status]);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -89,26 +118,6 @@ export default function ExpensesTable({ open, setOpen }: ExpensesTableProps) {
         amount: fieldErrors.amount?.[0],
       });
       return;
-    }
-
-    const res = await fetch("/api/budgets", {
-      method: "POST",
-      headers: { "Content-type": "application/json" },
-      body: JSON.stringify({ emoji, name, amount }),
-    });
-
-    const resData = await res.json();
-
-    if (res.ok && resData.success) {
-      setErrors({});
-      setName("");
-
-      setAmount("");
-      setOpen(false);
-      getAllExpense();
-      toast.success(resData?.message);
-    } else {
-      toast.error(resData?.message || "Something went wrong");
     }
   };
 
@@ -132,39 +141,49 @@ export default function ExpensesTable({ open, setOpen }: ExpensesTableProps) {
             <th className="px-6 py-3">Action</th>
           </tr>
         </thead>
-        <tbody className="divide-y divide-neutral-800 text-neutral-200">
-          {expData.map((item, index) => (
-            <tr key={index} className="hover:bg-neutral-950">
-              <td className="px-6 py-3 font-light text-lg text-neutral-300">
-                {item.name}
-              </td>
-              <td className="px-6 py-3 font-light text-lg text-red-300">
-                {item.amount}
-              </td>
-              <td className="px-6 py-3 font-light text-lg text-green-300">
-                {item.budgetId.name}
-              </td>
-              <td className="px-6 py-3 font-light text-lg text-neutral-300">
-                {formatDate(item.createdAt)}
-              </td>
-              <td className="px-6 py-3">
-                <div className="flex items-center gap-4">
-                  <button>
-                    <h3 className="text-sm cursor-pointer flex items-center gap-1">
-                      <FaEdit className="w-4" />
-                      Edit
-                    </h3>
-                  </button>
-                  <button>
-                    <h3 className="text-sm cursor-pointer flex items-center gap-1 text-red-500 hover:text-red-700">
-                      <Trash2 className="w-4" />
-                      Delete
-                    </h3>
-                  </button>
-                </div>
+        <tbody className="divide-y divide-neutral-900 text-neutral-200">
+          {loading ? (
+            <ExpenseSkeleton />
+          ) : expData.length === 0 ? (
+            <tr>
+              <td colSpan={5} className="text-center py-4 text-neutral-400">
+                No expenses found
               </td>
             </tr>
-          ))}
+          ) : (
+            expData.map((item, index) => (
+              <tr key={index} className="hover:bg-neutral-950">
+                <td className="px-6 py-3 font-light text-lg text-neutral-300">
+                  {item.name}
+                </td>
+                <td className="px-6 py-3 font-light text-lg text-red-300">
+                  {item.amount}
+                </td>
+                <td className="px-6 py-3 font-light text-lg text-green-300">
+                  {item.budgetId.name}
+                </td>
+                <td className="px-6 py-3 font-light text-lg text-neutral-300">
+                  {formatDate(item.createdAt)}
+                </td>
+                <td className="px-6 py-3">
+                  <div className="flex items-center gap-4">
+                    <button>
+                      <h3 className="text-sm cursor-pointer flex items-center gap-1">
+                        <FaEdit className="w-4" />
+                        Edit
+                      </h3>
+                    </button>
+                    <button>
+                      <h3 className="text-sm cursor-pointer flex items-center gap-1 text-red-500 hover:text-red-700">
+                        <Trash2 className="w-4" />
+                        Delete
+                      </h3>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))
+          )}
         </tbody>
       </table>
 
@@ -221,9 +240,22 @@ export default function ExpensesTable({ open, setOpen }: ExpensesTableProps) {
                   id="budgets"
                   className="bg-neutral-950 border border-neutral-800 text-white px-4 py-2  outline-none focus:ring-2 focus:ring-green-700"
                 >
-                  <option value="food" className="bg-neutral-900  text-white">
-                    🍕 Food
-                  </option>
+                  {budgets.length === 0 ? (
+                    <option className="bg-neutral-900  text-neutral-200">
+                      {" "}
+                      no budget created yet
+                    </option>
+                  ) : (
+                    budgets.map((budget: any, idx) => (
+                      <option
+                        key={idx}
+                        value={budget?.name}
+                        className="bg-neutral-900  text-neutral-200"
+                      >
+                        {budget?.emoji} {budget?.name} - {budget?.amount}
+                      </option>
+                    ))
+                  )}
                 </select>
               </div>
 

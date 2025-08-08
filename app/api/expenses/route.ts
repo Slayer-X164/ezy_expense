@@ -1,7 +1,8 @@
 import connectDB from "@/lib/db";
 import Expense from "@/models/expenses.model";
 import { NextRequest, NextResponse } from "next/server";
-
+import Budget from "@/models/budgets.model";
+import User from "@/models/user.model";
 export async function POST(req: NextRequest) {
   try {
     await connectDB();
@@ -36,20 +37,22 @@ export async function POST(req: NextRequest) {
 export async function GET() {
   try {
     await connectDB();
-    const allExpense = await Expense.find().populate('budgetId createdBy');
-    if (!allExpense) {
-      return NextResponse.json({
-        success: false,
-        message: "error while fetching expenses",
-        status: 500,
-      });
-    }
+
+    const allExpense = await Expense.find()
+      .populate("createdBy")
+      .populate("budgetId");
+
     return NextResponse.json({
       success: true,
       status: 200,
-      allExpense
+      allExpense,
     });
   } catch (error: any) {
     console.log("error while fetching expenses", error.message);
+    return NextResponse.json({
+      success: false,
+      message: "error while fetching expenses...",
+      status: 500,
+    });
   }
 }

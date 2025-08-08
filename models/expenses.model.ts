@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
-
+import Budget from "./budgets.model";
+import User from "./user.model";
 const expenseSchema = new mongoose.Schema(
   {
     name: {
