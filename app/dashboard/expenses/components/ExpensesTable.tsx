@@ -8,6 +8,8 @@ import { FaEdit } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
 import z from "zod";
 import ExpenseSkeleton from "./ExpenseSkeleton";
+import { RiLoaderLine } from "react-icons/ri";
+import { motion } from "framer-motion";
 
 interface BudgetData {
   _id: string;
@@ -51,7 +53,9 @@ export default function ExpensesTable({ open, setOpen }: ExpensesTableProps) {
   const { data: session, status } = useSession();
   const [expData, setExpData] = useState<ExpenseData[]>([]);
   const [budgets, setBudgets] = useState<BudgetData[]>([]);
+  const [selectedBudget, setSelectedBudget] = useState<string>("");
   const [loading, setLoading] = useState(true);
+  const [actionLoader, setActionLoader] = useState(false);
   const [name, setName] = useState("");
   const [amount, setAmount] = useState("");
   const [errors, setErrors] = useState<{ name?: string; amount?: string }>({});
@@ -63,6 +67,12 @@ export default function ExpensesTable({ open, setOpen }: ExpensesTableProps) {
       setErrors({});
     }
   };
+
+  useEffect(() => {
+    if (budgets.length > 0) {
+      setSelectedBudget(budgets[0]._id); // auto-select first
+    }
+  }, [budgets]);
 
   const getAllExpense = async () => {
     if (!session?.user?.id) return;
@@ -119,6 +129,35 @@ export default function ExpensesTable({ open, setOpen }: ExpensesTableProps) {
       });
       return;
     }
+    const createNewExpense = async () => {
+      if (!session?.user?.id || !selectedBudget) return;
+
+      const res = await fetch("/api/expenses", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          amount: Number(amount),
+          budgetId: selectedBudget,
+          createdBy: session.user.id,
+        }),
+      });
+
+      const resData = await res.json();
+      if (resData.success) {
+        setErrors({});
+        setAmount("");
+        setName("");
+        toast.success(resData.message);
+        setOpen(false);
+        getAllExpense();
+      } else {
+        toast.error(resData.message || "Failed to create expense");
+      }
+    };
+    createNewExpense();
   };
 
   const formatDate = (dateString: string) => {
@@ -129,6 +168,18 @@ export default function ExpensesTable({ open, setOpen }: ExpensesTableProps) {
     return `${year}-${month}-${day}`;
   };
 
+  const handleDelete = (id: string) => async () => {
+    setActionLoader(true);
+    const res = await fetch(`/api/expenses/${id}`, {
+      method: "DELETE",
+    });
+    const resData = await res.json();
+    if (resData.success) {
+      getAllExpense();
+      setActionLoader(false);
+      toast.success("Expense deleted successfully");
+    }
+  };
   return (
     <div className="overflow-x-auto shadow-md">
       <table className="min-w-full divide-y divide-neutral-800 text-left text-sm">
@@ -138,10 +189,25 @@ export default function ExpensesTable({ open, setOpen }: ExpensesTableProps) {
             <th className="px-6 py-3">Amount</th>
             <th className="px-6 py-3">Budget</th>
             <th className="px-6 py-3">Date</th>
-            <th className="px-6 py-3">Action</th>
+            <th className="px-6 py-3">Delete</th>
           </tr>
         </thead>
-        <tbody className="divide-y divide-neutral-900 text-neutral-200">
+        <tbody className="relative divide-y divide-neutral-900 text-neutral-200">
+          <>
+            {actionLoader && (
+              <tr className="absolute w-full h-full bg-neutral-900/80">
+                <div className="flex items-center  justify-center h-full">
+                  <motion.h3
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 1, repeat: Infinity }}
+                    className="text-4xl"
+                  >
+                    <RiLoaderLine className=" text-neutral-300" />
+                  </motion.h3>
+                </div>
+              </tr>
+            )}
+          </>
           {loading ? (
             <ExpenseSkeleton />
           ) : expData.length === 0 ? (
@@ -156,25 +222,20 @@ export default function ExpensesTable({ open, setOpen }: ExpensesTableProps) {
                 <td className="px-6 py-3 font-light text-lg text-neutral-300">
                   {item.name}
                 </td>
-                <td className="px-6 py-3 font-light text-lg text-red-300">
-                  {item.amount}
+                <td className="px-6 py-3 font-light text-lg text-red-500">
+                  ₹{item.amount}
                 </td>
-                <td className="px-6 py-3 font-light text-lg text-green-300">
-                  {item.budgetId.name}
+                <td className="px-6 py-3 font-light text-lg  text-green-400">
+                  <h3 className="bg-green-950/50 w-auto border border-green-900/50 text-center rounded-2xl">{item.budgetId.name}</h3>
                 </td>
-                <td className="px-6 py-3 font-light text-lg text-neutral-300">
+                <td className="px-6 py-3 font-light text-lg text-neutral-400">
                   {formatDate(item.createdAt)}
                 </td>
                 <td className="px-6 py-3">
                   <div className="flex items-center gap-4">
-                    <button>
-                      <h3 className="text-sm cursor-pointer flex items-center gap-1">
-                        <FaEdit className="w-4" />
-                        Edit
-                      </h3>
-                    </button>
-                    <button>
-                      <h3 className="text-sm cursor-pointer flex items-center gap-1 text-red-500 hover:text-red-700">
+
+                    <button onClick={handleDelete(item._id)}>
+                      <h3 className="text-sm cursor-pointer flex items-center gap-1 text-red-300 hover:text-red-900">
                         <Trash2 className="w-4" />
                         Delete
                       </h3>
@@ -238,6 +299,9 @@ export default function ExpensesTable({ open, setOpen }: ExpensesTableProps) {
                 <select
                   name="budgets"
                   id="budgets"
+                  onChange={(e) => {
+                    setSelectedBudget(e.target.value);
+                  }}
                   className="bg-neutral-950 border border-neutral-800 text-white px-4 py-2  outline-none focus:ring-2 focus:ring-green-700"
                 >
                   {budgets.length === 0 ? (
@@ -249,7 +313,7 @@ export default function ExpensesTable({ open, setOpen }: ExpensesTableProps) {
                     budgets.map((budget: any, idx) => (
                       <option
                         key={idx}
-                        value={budget?.name}
+                        value={budget?._id}
                         className="bg-neutral-900  text-neutral-200"
                       >
                         {budget?.emoji} {budget?.name} - {budget?.amount}

@@ -38,7 +38,7 @@ export async function GET() {
   try {
     await connectDB();
 
-    const allExpense = await Expense.find()
+    const allExpense = await Expense.find().sort({ createdAt: -1 })
       .populate("createdBy")
       .populate("budgetId");
 
