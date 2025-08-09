@@ -10,6 +10,7 @@ import z from "zod";
 import ExpenseSkeleton from "./ExpenseSkeleton";
 import { RiLoaderLine } from "react-icons/ri";
 import { motion } from "framer-motion";
+import ActionLoader from "./ActionLoader";
 
 interface BudgetData {
   _id: string;
@@ -181,7 +182,7 @@ export default function ExpensesTable({ open, setOpen }: ExpensesTableProps) {
     }
   };
   return (
-    <div className="overflow-x-auto shadow-md">
+    <div className="overflow-y-scroll max-h-96 shadow-md">
       <table className="min-w-full divide-y divide-neutral-800 text-left text-sm">
         <thead className="bg-neutral-900 text-neutral-600 uppercase">
           <tr>
@@ -193,26 +194,12 @@ export default function ExpensesTable({ open, setOpen }: ExpensesTableProps) {
           </tr>
         </thead>
         <tbody className="relative divide-y divide-neutral-900 text-neutral-200">
-          <>
-            {actionLoader && (
-              <tr className="absolute w-full h-full bg-neutral-900/80">
-                <div className="flex items-center  justify-center h-full">
-                  <motion.h3
-                    animate={{ rotate: 360 }}
-                    transition={{ duration: 1, repeat: Infinity }}
-                    className="text-4xl"
-                  >
-                    <RiLoaderLine className=" text-neutral-300" />
-                  </motion.h3>
-                </div>
-              </tr>
-            )}
-          </>
+          <ActionLoader actionLoader={actionLoader} />
           {loading ? (
             <ExpenseSkeleton />
           ) : expData.length === 0 ? (
             <tr>
-              <td colSpan={5} className="text-center py-4 text-neutral-400">
+              <td colSpan={5} className="text-center text-lg py-4 text-neutral-600">
                 No expenses found
               </td>
             </tr>
@@ -226,14 +213,15 @@ export default function ExpensesTable({ open, setOpen }: ExpensesTableProps) {
                   ₹{item.amount}
                 </td>
                 <td className="px-6 py-3 font-light text-lg  text-green-400">
-                  <h3 className="bg-green-950/50 w-auto border border-green-900/50 text-center rounded-2xl">{item.budgetId.name}</h3>
+                  <h3 className="bg-green-950/50 w-auto border border-green-900/50 text-center rounded-2xl">
+                    {item.budgetId.name}
+                  </h3>
                 </td>
                 <td className="px-6 py-3 font-light text-lg text-neutral-400">
                   {formatDate(item.createdAt)}
                 </td>
                 <td className="px-6 py-3">
                   <div className="flex items-center gap-4">
-
                     <button onClick={handleDelete(item._id)}>
                       <h3 className="text-sm cursor-pointer flex items-center gap-1 text-red-300 hover:text-red-900">
                         <Trash2 className="w-4" />

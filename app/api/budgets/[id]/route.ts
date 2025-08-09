@@ -1,5 +1,6 @@
 import connectDB from "@/lib/db";
 import Budget from "@/models/budgets.model";
+import Expense from "@/models/expenses.model";
 import { NextResponse } from "next/server";
 import React from "react";
 
@@ -23,6 +24,33 @@ export async function GET(req: Request, {params}: { params: { id: string } }) {
     });
   } catch (error: any) {
     console.log("error while fetching budget by ID", error.message);
+    return NextResponse.json({
+      success: false,
+      error: error.message,
+    });
+  }
+}
+
+export async function DELETE(req: Request, {params}: { params: { id: string } }) {
+  try {
+    await connectDB();
+    const id = params.id;
+
+    const budget = await Budget.findByIdAndDelete(id);
+    const expenses = await Expense.deleteMany({ budgetId: id });
+
+    if (!budget) {
+      return NextResponse.json({
+        success: false,
+        status: 500,
+      });
+    }
+    return NextResponse.json({
+      success: true,
+      message: "Budget deleted successfully",
+    });
+  } catch (error: any) {
+    console.log("error while deleting budget by ID", error.message);
     return NextResponse.json({
       success: false,
       error: error.message,
