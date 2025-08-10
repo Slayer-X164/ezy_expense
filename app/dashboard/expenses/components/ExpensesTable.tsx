@@ -265,7 +265,7 @@ export default function ExpensesTable({ open, setOpen }: ExpensesTableProps) {
                 <label className="text-neutral-400">Name</label>
                 <input
                   type="text"
-                  placeholder="eg: cheese pizza DMart"
+                  placeholder="eg: one cheese pizza"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   className="border border-neutral-800 bg-neutral-950 text-white px-3 py-2 outline-none focus:ring-2 focus:ring-green-700"
@@ -276,7 +276,7 @@ export default function ExpensesTable({ open, setOpen }: ExpensesTableProps) {
                 <label className="text-neutral-400">Amount</label>
                 <input
                   type="text"
-                  placeholder="eg: 499"
+                  placeholder="eg: 399"
                   value={amount}
                   onChange={(e) => setAmount(e.target.value)}
                   className="border border-neutral-800 bg-neutral-950 text-white px-3 py-2 outline-none focus:ring-2 focus:ring-green-700"
