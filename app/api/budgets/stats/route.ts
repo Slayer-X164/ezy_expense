@@ -41,6 +41,7 @@ export async function GET() {
           createdBy: 1, // keep createdBy in result
           totalSpent: 1,
           totalExpenses: 1,
+          createdAt:1,
         },
       },
     ]);
