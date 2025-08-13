@@ -1,9 +1,16 @@
 import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
 
-// Tailwind-inspired base colors
-const BASE_COLORS = ["#10B981", "#EF4444", "#FBBF24", "#3B82F6", "#8B5CF6"];
 
-// Fallback color generator using golden angle for variety
+const BASE_COLORS = [
+  "rgba(5, 150, 105, 0.8)",  // darker green
+  "rgba(220, 38, 38, 0.8)",  // darker red
+  "rgba(217, 119, 6, 0.8)",  // darker yellow-orange
+  "rgba(29, 78, 216, 0.8)",  // darker blue
+  "rgba(109, 40, 217, 0.8)"  // darker purple
+];
+
+
+
 const getColor = (index: number) => {
   if (index < BASE_COLORS.length) return BASE_COLORS[index];
   return `hsl(${(index * 137.5) % 360}, 70%, 50%)`; // Generates distinct colors

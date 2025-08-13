@@ -59,11 +59,11 @@ export default function dashboardPage() {
     fetchData();
   }, [status]);
 
-  if (!loading) {
-    console.log("total budget:", sumBudget);
-    console.log("total Expense:", sumExpense);
-    console.log("total number of budgets:", numOfBudgets);
-  }
+  // if (!loading) {
+  //   console.log("total budget:", sumBudget);
+  //   console.log("total Expense:", sumExpense);
+  //   console.log("total number of budgets:", numOfBudgets);
+  // }
   if (loading) {
     return (
       <div className="flex items-center justify-center w-full">

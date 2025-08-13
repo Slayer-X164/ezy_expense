@@ -32,9 +32,9 @@ export default function BarChartComp({ data }: BarChartCompProps) {
   return (
     <ResponsiveContainer width="100%" height={300}>
       <BarChart data={chartData} barSize={25} barGap={5}>
-        <CartesianGrid stroke="#6b7280" strokeDasharray="2 4"/>
-        <XAxis dataKey="name"  />
-        <YAxis />
+        <CartesianGrid stroke="#323232" strokeDasharray="2"/>
+        <XAxis dataKey="name"  stroke="#323232"/>
+        <YAxis stroke="#323232"/>
         <Tooltip content={<CustomToolTip/>}  cursor={{ fill: "#262626", opacity: 0 }}/>
         <Legend />
         <Bar dataKey="totalSpend" name="Spending" fill="#fa3448" activeBar={false}/>
