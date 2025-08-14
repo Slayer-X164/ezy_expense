@@ -182,7 +182,7 @@ export default function ExpensesTable({ open, setOpen }: ExpensesTableProps) {
     }
   };
   return (
-    <div className="overflow-y-scroll max-h-96 shadow-md pt-8 lg:pt-2">
+    <div className="overflow-y-scroll max-h-96 shadow-md ">
       <table className="min-w-full divide-y divide-neutral-800 text-left text-sm">
         <thead className="bg-neutral-900 text-neutral-600 uppercase">
           <tr>

@@ -1,6 +1,6 @@
 const BudgetCardSkeleton = () => {
   return (
-    <div className="flex justify-between items-center w-[350px] h-[100px] px-4 py-3 bg-[#111] border border-neutral-700  animate-pulse">
+    <div className="flex justify-between items-center w-full lg:w-[350px] h-[100px] px-4 py-3 bg-[#111] border border-neutral-700  animate-pulse">
       {/* Left section */}
       <div className="flex items-center gap-3">
         {/* Emoji placeholder */}

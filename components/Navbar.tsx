@@ -32,7 +32,7 @@ const Navbar = () => {
       initial={{ opacity: 0, y: -10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, delay: 1 }}
-      className="w-full py-2 lg:py-4 px-4 md:px-12 flex justify-between items-center relative"
+      className="w-full py-4  px-4 md:px-12 flex justify-between items-center relative"
     >
       <Link href="/">
         <div className="flex items-center gap-2">
