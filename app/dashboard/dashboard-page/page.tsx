@@ -28,6 +28,8 @@ export default function DashboardPage() {
       setNumOfBudgets(data.data.totalNumberOfBudgets);
       setLoading(false);
       // console.log("Total Budgets:", );
+      console.log('budgest: ',data.data);
+
     }
   };
   const getSumOfExpenses = async () => {
@@ -37,6 +39,8 @@ export default function DashboardPage() {
       setSumExpense(data.data.totalSumOfExpenses);
       setNumOfExpenses(data.data.totalNumberOfExpenses);
       setLoading(false);
+      console.log('expenses: ',data.data);
+
     }
   };
   const [budgetStats, setBudgetStats] = useState([]);
