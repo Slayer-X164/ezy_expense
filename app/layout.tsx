@@ -8,8 +8,10 @@ import { SessionProvider } from "next-auth/react";
 import Footer from "@/components/Footer";
 const robotoCondensed = Roboto_Condensed({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  subsets: ["latin"], 
   variable: "--font-robotoCondensed",
 });
+
 const poppins = Poppins({
   subsets: ["latin"],
   variable: "--font-poppins",
