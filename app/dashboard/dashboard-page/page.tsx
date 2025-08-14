@@ -80,7 +80,7 @@ export default function DashboardPage() {
   return (
     <div className=" w-full   flex flex-col gap-4">
       <div className="px-6 pt-6">
-        <h1 className="text-4xl font-bold text-neutral-200">
+        <h1 className="text-4xl font-bold text-neutral-200 pt-6 lg:pt-0">
           Hello, {session?.user?.name} 😃
         </h1>
         <p className="text-sm text-neutral-500 pt-2">
