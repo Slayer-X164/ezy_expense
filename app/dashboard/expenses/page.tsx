@@ -3,7 +3,7 @@ import Link from "next/link";
 import { FaChevronDown } from "react-icons/fa";
 import ExpensesTable from "./components/ExpensesTable";
 import { useState } from "react";
-export default function expensesPage() {
+export default function ExpensesPage() {
    const [open, setOpen] = useState(false);
   return (
     <div className="p-6 w-full">

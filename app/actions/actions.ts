@@ -1,11 +1,10 @@
 "use server";
-import { auth, signIn, signOut } from "@/auth";
+import { signIn, signOut } from "@/auth";
 import connectDB from "@/lib/db";
 import { createSession, deleteSession } from "@/lib/sessionFunctions";
 
 import User from "@/models/user.model";
 import bcrypt from "bcryptjs";
-import { redirect } from "next/navigation";
 import { z } from "zod";
 
 const loginSchema = z.object({

@@ -4,7 +4,7 @@ import connectDB from "@/lib/db";
 import { registerSchema } from "@/lib/zod";
 import User from "@/models/user.model";
 import bcrypt from "bcryptjs";
-import { redirect } from "next/navigation";
+
 
 export const register = async (prevState: any, formdata: FormData) => {
   const name = formdata.get("name") as string;

@@ -6,11 +6,10 @@ import { useEffect, useState } from "react";
 import { GiPayMoney } from "react-icons/gi";
 import { GrMoney } from "react-icons/gr";
 import { MdOutlineAccountBalanceWallet } from "react-icons/md";
-import BarChart from "./components/BarChartComp";
 import BarChartComp from "./components/BarChartComp";
 import BudgetPieChart from "./components/PieChartComp";
 
-export default function dashboardPage() {
+export default function DashboardPage() {
   const { data: session, status } = useSession();
   const [sumBudget, setSumBudget] = useState<number | null>(null);
   const [numOfBudgets, setNumOfBudgets] = useState<number | null>(null);
