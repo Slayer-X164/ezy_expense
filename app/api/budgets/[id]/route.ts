@@ -3,14 +3,17 @@ import Budget from "@/models/budgets.model";
 import Expense from "@/models/expenses.model";
 import { NextRequest, NextResponse } from "next/server";
 
+interface Params {
+  id: string;
+}
+
 export async function GET(
   req: NextRequest,
-  context: { params: { id: string } }
+  context: { params: Params }
 ) {
   try {
     await connectDB();
-    const id = context.params.id;
-    console.log(id);
+    const { id } = context.params;
 
     const budget = await Budget.findById(id);
     if (!budget) {
@@ -18,19 +21,20 @@ export async function GET(
     }
 
     return NextResponse.json({ success: true, budget });
-  } catch (error: any) {
-    console.error("Error while fetching budget by ID:", error.message);
-    return NextResponse.json({ success: false, error: error.message });
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : "Unknown error";
+    console.error("Error while fetching budget by ID:", message);
+    return NextResponse.json({ success: false, error: message });
   }
 }
 
 export async function DELETE(
   req: NextRequest,
-  context: { params: { id: string } }
+  context: { params: Params }
 ) {
   try {
     await connectDB();
-    const id = context.params.id;
+    const { id } = context.params;
 
     const budget = await Budget.findByIdAndDelete(id);
     await Expense.deleteMany({ budgetId: id });
@@ -43,8 +47,9 @@ export async function DELETE(
       success: true,
       message: "Budget deleted successfully",
     });
-  } catch (error: any) {
-    console.error("Error while deleting budget by ID:", error.message);
-    return NextResponse.json({ success: false, error: error.message });
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : "Unknown error";
+    console.error("Error while deleting budget by ID:", message);
+    return NextResponse.json({ success: false, error: message });
   }
 }
