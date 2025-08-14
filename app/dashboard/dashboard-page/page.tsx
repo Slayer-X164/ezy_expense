@@ -87,9 +87,9 @@ export default function DashboardPage() {
           Here&apos;s your expense summary. Let&apos;s keep those budgets in check!{" "}
         </p>
       </div>
-      <div className="grid grid-cols-1 divide-neutral-800 divide-x-1 border-b-1 md:grid-cols-2 lg:grid-cols-4 gap-4 w-full border-t-1 border-neutral-800">
+      <div className="grid grid-cols-1 divide-neutral-800 divide-y-1 lg:divide-x-1 border-b-1  lg:grid-cols-4 gap-1 lg:gap-4 w-full border-t-1 border-neutral-800">
         {/*  total budget card*/}
-        <div className="p-6 w-[300px] flex items-center justify-between">
+        <div className="p-6 w-full lg:w-[300px] flex items-center justify-between">
           <div>
             <h3 className="text-lg text-neutral-200">total budget</h3>
             <h2 className="text-4xl font-bold">₹{sumBudget}</h2>
@@ -103,7 +103,7 @@ export default function DashboardPage() {
           </div>
         </div>
         {/* total expense card */}
-        <div className="p-6 w-[300px] flex items-center justify-between">
+        <div className="p-6 w-full lg:w-[300px] flex items-center justify-between">
           <div>
             <h3 className="text-lg text-neutral-200">total Expenses</h3>
             <h2 className="text-4xl font-bold">₹{sumExpense}</h2>
@@ -117,7 +117,7 @@ export default function DashboardPage() {
           </div>
         </div>
         {/* total number of budgets and expense card */}
-        <div className="p-6 w-[300px] flex items-center justify-between border-r-1 border-neutral-800">
+        <div className="p-6 w-full lg:w-[300px] flex items-center justify-between lg:border-r-1 border-neutral-800">
           <div className="">
             <h3 className="text-lg text-neutral-200">No. of Budgets</h3>
             <h2 className="text-2xl font-bold">{numOfBudgets}</h2>
@@ -131,14 +131,15 @@ export default function DashboardPage() {
           </div>
         </div>
       </div>
-      <div className="w-full px-6 py-4 grid grid-cols-1 md:grid-cols-3">
-        <div className="md:col-span-2">
+      <h3 className="w-full px-6 text-xl font-bold text-neutral-300 text-center  pt-8 lg:hidden">Track Your Money</h3>
+      <div className="w-full flex flex-col gap-6 lg:gap-0  justify-center lg:px-6 py-4 lg:grid  md:grid-cols-3">
+        <div className=" md:col-span-2 px-4 md:px-0">
       {/* <h3 className="text-center text-neutral-600 font-bold">track your spending</h3> */}
           <BarChartComp
             data={budgetStats}
           />
         </div>
-        <div className="md:col-span-1">
+        <div className="px-4 md:px-0 md:col-span-1 md:w-full">
         <BudgetPieChart data={budgetStats}/>
         </div>
       </div>

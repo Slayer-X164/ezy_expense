@@ -97,7 +97,7 @@ const BudgetList = () => {
         budgets.map((budget, idx) => (
           <div
             key={idx}
-            className="flex relative  items-center  justify-between border-1 border-neutral-800 p-3 w-[350px] h-[100px]"
+            className="flex relative  items-center  justify-between border-1 border-neutral-800 p-3 w-full lg:w-[350px] h-[100px]"
           >
             <div className=" items-center justify-center gap-2 flex">
               {budget.totalSpent > parseInt(budget.amount) && (

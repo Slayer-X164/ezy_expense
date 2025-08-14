@@ -7,7 +7,7 @@ export default function ExpensesPage() {
    const [open, setOpen] = useState(false);
   return (
     <div className="p-6 w-full">
-      <div className="w-full mb-8  flex justify-between items-center">
+      <div className="w-full gap-4 lg:gap-0 mb-8 flex-col lg:flex-row flex justify-between items-start lg:items-center">
         <h3 className="text-3xl font-bold text-neutral-200 ">My Expenses</h3>
 
         <div className="flex items-center gap-3 text-sm">

@@ -77,7 +77,7 @@ const CreateNewBudget = ({setRefresh,refresh}:any) => {
       {/* Trigger */}
       <div
         onClick={() => setOpen(true)}
-        className="bg-neutral-950/70 w-[350px] h-[100px] border-dashed border-2 cursor-pointer border-neutral-700 p-10 flex items-center justify-center flex-col text-neutral-500 hover:bg-neutral-800/70"
+        className="bg-neutral-950/70 w-full lg:w-[350px] h-[100px] border-dashed border-2 cursor-pointer border-neutral-700 p-10 flex items-center justify-center flex-col text-neutral-500 hover:bg-neutral-800/70"
       >
         <h1 className="text-2xl">+</h1>
         <h2 className="text-md">Create New Budget</h2>

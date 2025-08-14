@@ -47,7 +47,7 @@ const Navbar = () => {
           <h3 className=" text-xl">EzyExpense</h3>
         </div>
       </Link>
-      <div className="hidden md:flex text-neutral-200 justify-center items-center gap-12">
+      <div className="hidden lg:flex text-neutral-200 justify-center items-center gap-12">
         <Link href="/">Home</Link>
         <Link href="#features">Features</Link>
         <Link href="#testimonials">Testimonials</Link>

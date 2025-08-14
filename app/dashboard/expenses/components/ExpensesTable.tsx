@@ -182,7 +182,7 @@ export default function ExpensesTable({ open, setOpen }: ExpensesTableProps) {
     }
   };
   return (
-    <div className="overflow-y-scroll max-h-96 shadow-md">
+    <div className="overflow-y-scroll max-h-96 shadow-md pt-8 lg:pt-2">
       <table className="min-w-full divide-y divide-neutral-800 text-left text-sm">
         <thead className="bg-neutral-900 text-neutral-600 uppercase">
           <tr>
@@ -206,18 +206,18 @@ export default function ExpensesTable({ open, setOpen }: ExpensesTableProps) {
           ) : (
             expData.map((item, index) => (
               <tr key={index} className="hover:bg-neutral-950">
-                <td className="px-6 py-3 font-light text-lg text-neutral-300">
+                <td className=" lg:px-6 py-3   font-light text-sm lg:text-lg text-neutral-300">
                   {item.name}
                 </td>
-                <td className="px-6 py-3 font-light text-lg text-red-500">
+                <td className="px-6 py-3 font-light text-sm lg:text-lg text-red-500">
                   ₹{item.amount}
                 </td>
-                <td className="px-6 py-3 font-light text-lg  text-green-400">
-                  <h3 className="bg-green-950/50 w-auto border border-green-900/50 text-center rounded-2xl">
+                <td className="px-6 py-3 font-light text-xs lg:text-lg  text-green-400">
+                  <h3 className="bg-green-950/50 w-auto p-2 lg:p-1 border border-green-900/50 text-center rounded-2xl">
                     {item.budgetId.name}
                   </h3>
                 </td>
-                <td className="px-6 py-3 font-light text-lg text-neutral-400">
+                <td className="px-6 py-3 font-light text-sm lg:text-lg text-neutral-400">
                   {formatDate(item.createdAt)}
                 </td>
                 <td className="px-6 py-3">

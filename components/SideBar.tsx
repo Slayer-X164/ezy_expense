@@ -10,14 +10,14 @@ const links = [
   { href: "/dashboard/dashboard-page", label: "Dashboard", icon: <MdDashboard className="text-2xl"  />,color:'text-blue-400' },
   { href: "/dashboard/budgets", label: "Budgets", icon: <GrMoney className="text-2xl" />,color:'text-green-700' },
   { href: "/dashboard/expenses", label: "Expenses", icon: <GiPayMoney className="text-2xl" />,color:'text-red-400' },
-  { href: "/dashboard/upgrade", label: "Upgrade", icon: <MdWorkspacePremium className="text-2xl" />,color:'text-yellow-400' },
+
 ]
 
 const SideBar = () => {
   const pathname = usePathname()
 
   return (
-    <div className="hidden border-r border-neutral-800">
+    <div className="hidden lg:block border-r border-neutral-800">
       <div className="flex pt-8  md:w-[250px] lg:w-[350px] flex-col py-4 gap-4    text-lg font-extralight ">
         {links.map((link) => {
           const isActive = pathname === link.href || pathname.startsWith(link.href + "/")
