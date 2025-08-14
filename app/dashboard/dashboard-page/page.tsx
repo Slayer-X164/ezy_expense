@@ -80,7 +80,7 @@ export default function DashboardPage() {
           Hello, {session?.user?.name} 😃
         </h1>
         <p className="text-sm text-neutral-500 pt-2">
-          Here's your expense summary. Let's keep those budgets in check!{" "}
+          Here&apos;s your expense summary. Let&apos;s keep those budgets in check!{" "}
         </p>
       </div>
       <div className="grid grid-cols-1 divide-neutral-800 divide-x-1 border-b-1 md:grid-cols-2 lg:grid-cols-4 gap-4 w-full border-t-1 border-neutral-800">
