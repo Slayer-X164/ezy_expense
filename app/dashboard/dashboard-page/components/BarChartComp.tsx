@@ -37,8 +37,8 @@ export default function BarChartComp({ data }: BarChartCompProps) {
         <YAxis stroke="#323232"/>
         <Tooltip content={<CustomToolTip/>}  cursor={{ fill: "#262626", opacity: 0 }}/>
         <Legend />
-        <Bar dataKey="totalSpend" name="Spending" fill="#fa3448" activeBar={false}/>
-        <Bar dataKey="amount" name="Budget" fill="#00821a" activeBar={false} />
+        <Bar dataKey="amount" name="Budget" fill="#00821a" activeBar={false}/>
+        <Bar dataKey="totalSpend" name="Spending" fill="#fa3448" activeBar={false} />
       </BarChart>
     </ResponsiveContainer>
   );

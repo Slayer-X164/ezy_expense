@@ -50,6 +50,8 @@ export default function DashboardPage() {
     const json = await res.json();
     if (json.success) {
       setBudgetStats(json.data);
+      console.log('stats:',json.data);
+
     }
   };
 
@@ -87,7 +89,7 @@ export default function DashboardPage() {
           Here&apos;s your expense summary. Let&apos;s keep those budgets in check!{" "}
         </p>
       </div>
-      <div className="grid grid-cols-1 divide-neutral-800 divide-y-1 lg:divide-x-1 border-b-1  lg:grid-cols-4 gap-1 lg:gap-4 w-full border-t-1 border-neutral-800">
+      <div className="grid grid-cols-1 divide-neutral-800 divide-y-1 lg:divide-x-1 border-b-1 lg:grid-cols-3   xl:grid-cols-4 gap-1 lg:gap-4 w-full border-t-1 border-neutral-800">
         {/*  total budget card*/}
         <div className="p-6 w-full lg:w-[300px] flex items-center justify-between">
           <div>
