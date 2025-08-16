@@ -14,6 +14,8 @@ import { RiMenu3Line } from "react-icons/ri";
 import { useState } from "react";
 import MobileNav from "./MobileNav";
 import { AiOutlineClose } from "react-icons/ai";
+import { CiLogin } from "react-icons/ci";
+
 const Navbar = () => {
   const dispatch = useDispatch();
   const { data } = useSession();
@@ -58,8 +60,8 @@ const Navbar = () => {
       <div className="flex items-center gap-4">
         {!session?.user?.name ? (
           <Link href="/login">
-            <button className="text-amber-200 cursor-pointer  py-3 pl-6 flex items-center gap-2">
-              log in <MoveRight />
+            <button className="text-amber-200 cursor-pointer  py-3 pl-6 flex items-center gap-1">
+              log in <CiLogin className="text-xl"/>
             </button>
           </Link>
         ) : (

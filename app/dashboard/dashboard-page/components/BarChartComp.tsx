@@ -26,8 +26,11 @@ export default function BarChartComp({ data }: BarChartCompProps) {
   const chartData = data.map((item) => ({
     name: item.name,
     totalSpend: item.totalSpent,
-    amount: Number(item.amount), // convert to number for chart
+    amount: Number(item.amount),
+
   }));
+  console.log('budgetStat:',data);
+
 
   return (
     <ResponsiveContainer width="100%" height={300}>

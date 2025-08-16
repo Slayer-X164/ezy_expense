@@ -166,7 +166,7 @@ export default function ExpensesTable({ open, setOpen }: ExpensesTableProps) {
     const year = date.getFullYear();
     const month = date.getMonth() + 1;
     const day = date.getDate();
-    return `${year}-${month}-${day}`;
+    return `${day}/${month}/${year}`;
   };
 
   const handleDelete = (id: string) => async () => {
@@ -212,12 +212,12 @@ export default function ExpensesTable({ open, setOpen }: ExpensesTableProps) {
                 <td className="px-6 py-3 font-light text-sm lg:text-lg text-red-500">
                   ₹{item.amount}
                 </td>
-                <td className="px-6 py-3 font-light text-xs lg:text-lg  text-green-400">
+                <td className="pr-6 py-3 font-light text-xs lg:text-lg  text-green-400">
                   <h3 className="bg-green-950/50 w-auto p-2 lg:p-1 border border-green-900/50 text-center rounded-2xl">
                     {item.budgetId.name}
                   </h3>
                 </td>
-                <td className="px-6 py-3 font-light text-sm lg:text-lg text-neutral-400">
+                <td className="px-0 py-3 font-light text-sm lg:text-lg text-neutral-500">
                   {formatDate(item.createdAt)}
                 </td>
                 <td className="px-6 py-3">
@@ -240,7 +240,7 @@ export default function ExpensesTable({ open, setOpen }: ExpensesTableProps) {
       {open && (
         <div
           onClick={onBackdropClick}
-          className="fixed inset-0 z-40 flex items-center justify-center bg-black/50 backdrop-blur-xs"
+          className="fixed inset-0 z-40 flex items-center justify-center bg-black/50 backdrop-blur-xs p-6"
         >
           <div
             ref={modalRef}

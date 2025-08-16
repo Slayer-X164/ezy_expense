@@ -51,7 +51,7 @@ const MobileNav = ({ openMobileNav, setOpenMobileNav }: any) => {
           return (
             <Link
               key={link.href}
-              href={link.href}
+              href={session?.user?link.href:'/login'}
               onClick={handleClose}
               className={`flex items-center gap-2 py-2  md:px-12 text-2xl ${
                 isActive ? `bg-neutral-800/80 ` : "bg-transparent"
