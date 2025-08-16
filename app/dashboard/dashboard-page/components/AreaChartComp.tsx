@@ -8,58 +8,84 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
+  Legend,
 } from "recharts";
+import { useEffect, useState } from "react";
 
-const data = [
-  { date: "2025-07-10", amount: 800 },
-  { date: "2025-07-11", amount: 650 },
-  { date: "2025-07-12", amount: 900 },
-  { date: "2025-07-13", amount: 1100 },
-  { date: "2025-07-14", amount: 950 },
-  { date: "2025-07-15", amount: 1200 },
-  { date: "2025-07-16", amount: 1000 },
-  { date: "2025-07-17", amount: 1050 },
-  { date: "2025-07-18", amount: 1150 },
-  { date: "2025-07-19", amount: 900 },
-  { date: "2025-07-20", amount: 700 },
-  { date: "2025-07-21", amount: 850 },
-];
+type ExpenseData = {
+  date: string;
+  expense: number;
+};
 
-// Format date as d/m/yyyy
+// Format date as d/m
 const formatDate = (dateString: string) => {
   const date = new Date(dateString);
-  return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
+  return `${date.getDate()}/${date.getMonth() + 1}`;
 };
 
 export default function AreaChartComp() {
+  const [data, setData] = useState<ExpenseData[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await fetch(`/api/expenses/stats`);
+      const json = await res.json();
+      setData(json); // API returns [{ date, totalExpense }]
+    };
+
+    fetchData();
+  }, []);
+
   return (
-    <div className="w-full h-96 p-4 bg-gray-900 rounded-2xl shadow-lg">
-      <h2 className="text-white text-xl font-semibold mb-4">Revenue</h2>
+    <div className="w-full h-full rounded-2xl shadow-lg relative">
+      {data.length === 0 && (
+        <h3 className="absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] text-center text-sm text-neutral-700">
+          no expense available <br />
+          to show
+        </h3>
+      )}
       <ResponsiveContainer width="100%" height="100%">
         <AreaChart data={data}>
           <defs>
-            <linearGradient id="colorAmount" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8}/>
-              <stop offset="95%" stopColor="#8884d8" stopOpacity={0}/>
+            <linearGradient id="colorExpense" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.8} />
+              <stop offset="95%" stopColor="#3b82f6" stopOpacity={0} />
             </linearGradient>
           </defs>
-          <CartesianGrid strokeDasharray="3 3" stroke="#444" />
+
+          <CartesianGrid strokeDasharray="2 2" stroke="#323232" />
           <XAxis
             dataKey="date"
             tickFormatter={formatDate}
             tick={{ fill: "#aaa" }}
+            stroke="#2B2B2B"
           />
-          <YAxis tick={{ fill: "#aaa" }} />
-          <Tooltip labelFormatter={(value) => formatDate(value as string)} />
+          <YAxis tick={{ fill: "#aaa" }} stroke="#2B2B2B" />
+          <Legend />
+          <Tooltip
+            labelFormatter={(value) => `Date: ${formatDate(value as string)}`}
+            formatter={(val) => [`₹${val}`, "Expense"]}
+            contentStyle={{
+              backgroundColor: "#262626",
+              border: 0,
+              color: "#fff",
+            }}
+            itemStyle={{ color: "#3b82f6" }}
+            labelStyle={{ color: "#f1f5f9" }}
+          />
+
           <Area
             type="monotone"
-            dataKey="amount"
-            stroke="#8884d8"
+            dataKey="expense" // match API key
+            stroke="#3b82f6"
             fillOpacity={1}
-            fill="url(#colorAmount)"
+            fill="url(#colorExpense)"
+            name="Daily Expense"
           />
         </AreaChart>
       </ResponsiveContainer>
     </div>
+
+    
   );
 }

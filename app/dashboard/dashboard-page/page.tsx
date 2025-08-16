@@ -7,7 +7,9 @@ import { GiPayMoney } from "react-icons/gi";
 import { GrMoney } from "react-icons/gr";
 import { MdOutlineAccountBalanceWallet } from "react-icons/md";
 import BarChartComp from "./components/BarChartComp";
-import BudgetPieChart from "./components/PieChartComp";
+import AreaChartComp from "./components/AreaChartComp";
+import { GoGraph } from "react-icons/go";
+import { VscGraph } from "react-icons/vsc";
 
 export default function DashboardPage() {
   const { data: session, status } = useSession();
@@ -28,8 +30,7 @@ export default function DashboardPage() {
       setNumOfBudgets(data.data.totalNumberOfBudgets);
       setLoading(false);
       // console.log("Total Budgets:", );
-      console.log('budgest: ',data.data);
-
+      console.log("budgest: ", data.data);
     }
   };
   const getSumOfExpenses = async () => {
@@ -39,8 +40,7 @@ export default function DashboardPage() {
       setSumExpense(data.data.totalSumOfExpenses);
       setNumOfExpenses(data.data.totalNumberOfExpenses);
       setLoading(false);
-      console.log('expenses: ',data.data);
-
+      console.log("expenses: ", data.data);
     }
   };
   const [budgetStats, setBudgetStats] = useState([]);
@@ -50,8 +50,7 @@ export default function DashboardPage() {
     const json = await res.json();
     if (json.success) {
       setBudgetStats(json.data);
-      console.log('stats:',json.data);
-
+      console.log("stats:", json.data);
     }
   };
 
@@ -86,7 +85,8 @@ export default function DashboardPage() {
           Hello, {session?.user?.name} 😃
         </h1>
         <p className="text-sm text-neutral-500 pt-2">
-          Here&apos;s your expense summary. Let&apos;s keep those budgets in check!{" "}
+          Here&apos;s your expense summary. Let&apos;s keep those budgets in
+          check!{" "}
         </p>
       </div>
       <div className="grid grid-cols-1 divide-neutral-800 divide-y-1 lg:divide-x-1 border-b-1 lg:grid-cols-3   xl:grid-cols-4 gap-1 lg:gap-4 w-full border-t-1 border-neutral-800">
@@ -94,7 +94,7 @@ export default function DashboardPage() {
         <div className="p-6 w-full lg:w-[300px] flex items-center justify-between">
           <div>
             <h3 className="text-lg text-neutral-200">total budget</h3>
-            <h2 className="text-4xl font-bold">₹{sumBudget}</h2>
+            <h2 className="text-4xl font-bold">₹{sumBudget ? sumBudget : 0}</h2>
           </div>
           <div>
             <Link href="/dashboard/budgets">
@@ -122,7 +122,9 @@ export default function DashboardPage() {
         <div className="p-6 w-full lg:w-[300px] flex items-center justify-between lg:border-r-1 border-neutral-800">
           <div className="">
             <h3 className="text-lg text-neutral-200">No. of Budgets</h3>
-            <h2 className="text-2xl font-bold">{numOfBudgets}</h2>
+            <h2 className="text-2xl font-bold">
+              {numOfBudgets ? numOfBudgets : 0}
+            </h2>
           </div>
           <div>
             <Link href="/dashboard/budgets">
@@ -133,16 +135,20 @@ export default function DashboardPage() {
           </div>
         </div>
       </div>
-      <h3 className="w-full px-6 text-xl font-bold text-neutral-300 text-center  pt-8 lg:hidden">Track Your Money</h3>
-      <div className="w-full flex flex-col gap-6 lg:gap-0  justify-center lg:px-6 py-4 lg:grid  md:grid-cols-3">
-        <div className=" md:col-span-2 px-4 md:px-0">
-      {/* <h3 className="text-center text-neutral-600 font-bold">track your spending</h3> */}
-          <BarChartComp
-            data={budgetStats}
-          />
+      <h3 className="w-full  flex items-center justify-center gap-3 px-6 text-lg  font-semibold text-neutral-300 text-center  pt-8 lg:hidden">
+        <GoGraph className="text-xl text-blue-500"/> Track Daily Expense
+      </h3>
+      <div className="w-full h-auto flex flex-col gap-6 lg:gap-0  justify-between lg:px-6 py-4 md:grid  md:grid-cols-4">
+        {/* area chart */}
+        <div className="md:col-span-2 h-74 px-4">
+          <AreaChartComp />
         </div>
-        <div className="px-4 md:px-0 md:col-span-1 md:w-full">
-        <BudgetPieChart data={budgetStats}/>
+        <h3 className="w-full flex items-center justify-center gap-3 px-6 text-lg  font-semibold text-neutral-300 text-center  pt-8 lg:hidden">
+          <VscGraph className="text-xl text-red-500"/> check your spendings
+        </h3>
+        {/* bar chart */}
+        <div className=" md:col-span-2 px-4 md:px-0 h-74">
+          <BarChartComp data={budgetStats} />
         </div>
       </div>
     </div>
