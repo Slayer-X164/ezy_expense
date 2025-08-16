@@ -135,7 +135,7 @@ export default function DashboardPage() {
           </div>
         </div>
       </div>
-      <h3 className="w-full  flex items-center justify-center gap-3 px-6 text-lg  font-semibold text-neutral-300 text-center  pt-8 lg:hidden">
+      <h3 className="w-full  flex items-center justify-center gap-3 px-6 text-lg  font-semibold text-neutral-300 text-center  pt-8 md:hidden">
         <GoGraph className="text-xl text-blue-500"/> Track Daily Expense
       </h3>
       <div className="w-full h-auto flex flex-col gap-6 lg:gap-0  justify-between lg:px-6 py-4 md:grid  md:grid-cols-4">
@@ -143,7 +143,7 @@ export default function DashboardPage() {
         <div className="md:col-span-2 h-74 px-4">
           <AreaChartComp />
         </div>
-        <h3 className="w-full flex items-center justify-center gap-3 px-6 text-lg  font-semibold text-neutral-300 text-center  pt-8 lg:hidden">
+        <h3 className="w-full flex items-center justify-center gap-3 px-6 text-lg  font-semibold text-neutral-300 text-center  pt-8 md:hidden">
           <VscGraph className="text-xl text-red-500"/> check your spendings
         </h3>
         {/* bar chart */}
