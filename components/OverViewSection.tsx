@@ -4,7 +4,7 @@ import { FaChevronDown } from "react-icons/fa";
 const OverViewSection = () => {
   return (
     <main id="features" className=" border-neutral-800 w-full md:h-[100vh]">
-      <h3 className="text-center pt-10 flex items-center text-3xl w-full justify-center gap-1 text-neutral-300 font-semibold">
+      <h3 className="text-center pt-8 flex items-center text-3xl w-full justify-center gap-1 text-neutral-300 font-semibold">
        Features
       </h3>
 
