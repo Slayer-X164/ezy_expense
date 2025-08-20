@@ -37,14 +37,14 @@ const Navbar = () => {
       className="w-full py-4  px-4 md:px-12 flex justify-between items-center relative"
     >
       <Link href="/">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-0">
           {" "}
           <Image
             src={"/logo.png"}
             alt="Logo"
             width={100}
             height={100}
-            className="w-8 "
+            className="w-10 "
           ></Image>
           <h3 className=" text-xl">EzyExpense</h3>
         </div>
