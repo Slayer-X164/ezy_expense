@@ -40,10 +40,10 @@ const MobileNav = ({ openMobileNav, setOpenMobileNav }: any) => {
         <Link href="/" onClick={handleClose} className="w-full border-b pb-2">
           Home
         </Link>
-        <Link href="/features" onClick={handleClose} className="w-full border-b pb-2">
+        <Link href="#features" onClick={handleClose} className="w-full border-b pb-2">
           Features
         </Link>
-        <Link href="/testimonials" onClick={handleClose} className="w-full border-b pb-2">
+        <Link href="#testimonials" onClick={handleClose} className="w-full border-b pb-2">
           Testimonials
         </Link>
          {links.map((link) => {

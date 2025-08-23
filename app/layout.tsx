@@ -1,14 +1,16 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Poppins, Roboto_Condensed } from "next/font/google";
+import { Poppins, Roboto_Condensed } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Providers from "@/redux/providers";
 import { Toaster } from "react-hot-toast";
 import { SessionProvider } from "next-auth/react";
 import Footer from "@/components/Footer";
+import PageTransition from "./PageTransition"; 
+
 const robotoCondensed = Roboto_Condensed({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
-  subsets: ["latin"], 
+  subsets: ["latin"],
   variable: "--font-robotoCondensed",
 });
 
@@ -17,6 +19,7 @@ const poppins = Poppins({
   variable: "--font-poppins",
   weight: ["400", "700"],
 });
+
 export const metadata: Metadata = {
   title: "EzyExpense – Modern Effortless Expense Tracker & Budget Manager",
   description:
@@ -43,14 +46,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={` ${poppins.className} antialiased bg-black text-neutral-50 box-border`}
+        className={`${poppins.className} antialiased bg-black text-neutral-50 box-border scroll-smooth`}
       >
         <SessionProvider>
           <Toaster />
           <Providers>
             <Navbar />
-            {children}
-            <Footer/>
+            <PageTransition>{children}</PageTransition>
+            <Footer />
           </Providers>
         </SessionProvider>
       </body>
