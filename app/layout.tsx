@@ -6,7 +6,8 @@ import Providers from "@/redux/providers";
 import { Toaster } from "react-hot-toast";
 import { SessionProvider } from "next-auth/react";
 import Footer from "@/components/Footer";
-import PageTransition from "./PageTransition"; 
+import PageTransition from "./PageTransition";
+import { Analytics } from "@vercel/analytics/react";
 
 const robotoCondensed = Roboto_Condensed({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -56,6 +57,7 @@ export default function RootLayout({
             <Footer />
           </Providers>
         </SessionProvider>
+        <Analytics />
       </body>
     </html>
   );
