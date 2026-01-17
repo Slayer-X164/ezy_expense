@@ -29,4 +29,3 @@ export const decrypt = async (session: string | undefined = "") => {
     console.log("Failed to verify session ", error.message);
   }
 };
-

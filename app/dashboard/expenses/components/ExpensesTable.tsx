@@ -82,7 +82,8 @@ export default function ExpensesTable({ open, setOpen }: ExpensesTableProps) {
     const resData = await res.json();
     if (resData.success) {
       const userExpenses = resData.allExpense.filter(
-        (expense: any) => expense.createdBy._id === session?.user?.id
+        (expense: ExpenseData) =>
+          expense.createdBy && expense.createdBy._id === session?.user?.id,
       );
       setExpData(userExpenses);
       setLoading(false);
@@ -99,7 +100,8 @@ export default function ExpensesTable({ open, setOpen }: ExpensesTableProps) {
     const resData = await res.json();
     if (resData.success) {
       const userBudgets = resData.budgets.filter(
-        (budget: any) => budget.createdBy._id === session?.user?.id
+        (budget: BudgetData) =>
+          budget.createdBy && budget.createdBy._id === session?.user?.id,
       );
 
       setBudgets(userBudgets);
@@ -199,7 +201,10 @@ export default function ExpensesTable({ open, setOpen }: ExpensesTableProps) {
             <ExpenseSkeleton />
           ) : expData.length === 0 ? (
             <tr>
-              <td colSpan={5} className="text-center text-lg py-4 text-neutral-600">
+              <td
+                colSpan={5}
+                className="text-center text-lg py-4 text-neutral-600"
+              >
                 No expenses found
               </td>
             </tr>

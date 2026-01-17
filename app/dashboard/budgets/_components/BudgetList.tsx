@@ -16,7 +16,22 @@ interface IBudget {
   totalSpent: number;
   totalExpenses: number;
 }
-
+interface ExpenseData {
+  _id: string;
+  name: string;
+  amount: string;
+  budgetId: {
+    _id: string;
+    name: "string";
+    amount: string;
+    createdBy: string;
+  };
+  createdBy: {
+    _id: string;
+  };
+  createdAt: string;
+  updatedAt: string;
+}
 const BudgetList = () => {
   const { data: session, status } = useSession();
   const [budgets, setBudgets] = useState<IBudget[]>([]);
@@ -35,7 +50,7 @@ const BudgetList = () => {
     const resData = await res.json();
     if (resData.success) {
       const userBudgets = resData.data.filter(
-        (budget: any) => budget.createdBy === session?.user?.id
+        (budget: IBudget) => budget.createdBy && budget.createdBy === session?.user?.id
       );
       setBudgets(userBudgets);
     }
@@ -45,7 +60,7 @@ const BudgetList = () => {
 
     if (resExpenseData.success) {
       const userExpenses = resExpenseData.allExpense.filter(
-        (expense: any) => expense.createdBy._id === session?.user?.id
+        (expense: ExpenseData) => expense.createdBy && expense.createdBy._id === session?.user?.id
       );
       setExpenses(userExpenses);
       setLoading(false);
